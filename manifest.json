@@ -21,7 +21,7 @@
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "shortcuts": [
-    { "name": "Market Watch", "url": "./index.html", "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }] },
-    { "name": "IPO Center",   "url": "./index.html", "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }] }
+    { "name": "Market Watch", "url": "./index.html", "icons": [{ "src": "icon-96.png", "sizes": "96x96" }] },
+    { "name": "IPO Center",   "url": "./index.html", "icons": [{ "src": "icon-96.png", "sizes": "96x96" }] }
   ]
 }
