@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "Com.BullsEye.Trading",
+        "sha256_cert_fingerprints": ["3E:46:8A:54:2C:FC:96:D6:EE:D3:65:92:C3:7D:A7:FD:1E:D0:E2:DE:39:4C:E1:22:57:B3:4A:93:68:DD:37:F3"]
+      }
+    }]
