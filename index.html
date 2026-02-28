@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#0c0c0c">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -66,7 +66,7 @@ body{background:#0c0c0c;color:#ffffff;font-family:'Rajdhani',sans-serif;font-siz
 @keyframes mroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .msi{display:flex;align-items:center;gap:5px;padding:0 14px;border-right:1px solid rgba(255,255,255,.05);white-space:nowrap;}
 .ms-s{font-family:'Rajdhani',sans-serif;font-size:11px;color:#555555;}
-.ms-p{font-family:'Share Tech Mono',monospace;font-size:12px;font-weight:600;}
+.ms-p{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;}
 .ms-c{font-family:'Share Tech Mono',monospace;font-size:11px;}
 .up{color:var(--gr)!important;}.dn{color:var(--rd)!important;}
 
@@ -79,7 +79,7 @@ body{background:#0c0c0c;color:#ffffff;font-family:'Rajdhani',sans-serif;font-siz
 .bn.act{background:transparent;}
 .bni{font-size:20px;line-height:1;}
 .bnl{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:0;font-family:'Rajdhani',sans-serif;transition:.2s;}
-.bn.act .bnl{color:#ffffff;} .bn.act .bni{opacity:1;} .bn .bni{opacity:0.5;} .bn .bnl{color:#555;}
+.bn.act .bnl{color:#ffffff;font-weight:700;} .bn.act .bni{opacity:1;} .bn .bni{opacity:0.45;} .bn .bnl{color:#444444;}
 .bn.act .bni{filter:none;}
 .bn-trade{width:50px;height:50px;border-radius:50%;background:#ffffff;
   display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;color:#000;font-weight:700;
@@ -90,17 +90,17 @@ body{background:#0c0c0c;color:#ffffff;font-family:'Rajdhani',sans-serif;font-siz
 .card{background:#161616;border:1px solid #1e1e1e;border-radius:14px;}
 .sech{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px;}
 .sect{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px;color:#ffffff;-webkit-text-fill-color:#ffffff;}
-.secm{font-size:13px;color:#888888;cursor:pointer;font-family:'Rajdhani',sans-serif;}
+.secm{font-size:13px;color:#ffffff;cursor:pointer;font-family:'Rajdhani',sans-serif;}
 
 /* HERO */
 .hero{margin:0 0 0;padding:20px 16px;background:#0c0c0c;border:none;border-bottom:1px solid #1a1a1a;position:relative;}
 .hero::before{display:none;}
 @keyframes horb{}
-.hero-gr{font-size:14px;font-family:'Rajdhani',sans-serif;color:#888888;margin-bottom:4px;}
+.hero-gr{font-size:15px;font-family:'Rajdhani',sans-serif;color:#aaaaaa;margin-bottom:6px;}
 .hero-val{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#ffffff;-webkit-text-fill-color:#ffffff;margin:2px 0 4px;letter-spacing:-1px;line-height:1.1;}
 .hero-st{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px;}
 .hs{background:#141414;border-radius:10px;padding:10px 8px;border:1px solid #1e1e1e;}
-.hsl{font-size:11px;font-family:'Rajdhani',sans-serif;color:#666666;margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px;}
+.hsl{font-size:12px;font-family:'Rajdhani',sans-serif;color:#888888;margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px;}
 .hsv{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:#ffffff;-webkit-text-fill-color:#ffffff;}
 
 /* QUICK ACTIONS */
@@ -108,7 +108,7 @@ body{background:#0c0c0c;color:#ffffff;font-family:'Rajdhani',sans-serif;font-siz
 .qa{background:#141414;border:1px solid #1e1e1e;border-radius:14px;padding:14px 5px;text-align:center;cursor:pointer;transition:.2s;}
 .qa:hover{border-color:var(--a2);transform:translateY(-2px);}
 .qai{font-size:24px;margin-bottom:6px;}
-.qal{font-size:12px;font-weight:600;color:#888888;font-family:'Rajdhani',sans-serif;}
+.qal{font-size:13px;font-weight:700;color:#ffffff;font-family:'Rajdhani',sans-serif;}
 
 /* HSCROLL */
 .hscr{display:flex;gap:8px;padding:0 16px 4px;overflow-x:auto;}
@@ -130,8 +130,8 @@ body{background:#0c0c0c;color:#ffffff;font-family:'Rajdhani',sans-serif;font-siz
 .gmc:hover{border-color:var(--a2);transform:translateY(-1px);}
 .gfl{font-size:14px;margin-bottom:3px;}
 .grg{font-size:8px;font-family:'Share Tech Mono',monospace;color:var(--t3);}
-.gsm{font-size:12px;font-weight:700;font-family:'Orbitron',sans-serif;margin:2px 0;}
-.gpr{font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:700;}
+.gsm{font-size:13px;font-weight:700;font-family:'Rajdhani',sans-serif;margin:2px 0;color:#ffffff;}
+.gpr{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
 .gch{font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:1px;}
 
 /* WATCHLIST */
@@ -357,9 +357,9 @@ input[type=range]{width:100%;accent-color:var(--a2);}
 
 /* COMPARE BANNER */
 .compbanner{margin:0;padding:16px;background:#111111;border:none;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;}
-.cbt{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:12px;}
-.cbr{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:12px;}
-.cbf{color:#888888;font-family:'Rajdhani',sans-serif;flex:1;}.cbs{color:#e74c3c;font-family:'Rajdhani',sans-serif;font-size:12px;}.cbb{color:#25c866;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;}
+.cbt{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:#ffffff;margin-bottom:14px;}
+.cbr{display:flex;align-items:center;margin-bottom:10px;font-size:15px;}
+.cbf{color:#ffffff;font-family:'Rajdhani',sans-serif;flex:1;font-size:15px;font-weight:600;}.cbs{color:#e74c3c;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;width:110px;text-align:center;}.cbb{color:#25c866;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;width:110px;text-align:center;}
 
 /* MORE */
 .mrg{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px 16px;}
@@ -782,6 +782,11 @@ function buildHome(){
   </div>
   <div class="compbanner">
     <div class="cbt">🏆 BULLS EYE vs SAHI — WHY BULLS EYE WINS</div>
+    <div style="display:flex;margin-bottom:10px;font-size:13px;font-family:'Rajdhani',sans-serif;font-weight:700;">
+      <span style="flex:1;color:#555;">FEATURE</span>
+      <span style="width:110px;text-align:center;color:#e74c3c;">SAHI ❌</span>
+      <span style="width:110px;text-align:center;color:#25c866;">BULLS EYE ✅</span>
+    </div>
     ${[['AI Signals (BUY/SELL)','❌ None','✅ 82% Accuracy'],['Global Markets','❌ India Only','✅ 14 Markets'],['Voice Commands','❌ None','✅ Hinglish AI'],['6 Background Themes','❌ 1 Theme','✅ 6 Themes'],['Paper Trading','❌ None','✅ ₹1L Virtual'],['Live Trader Chat','❌ None','✅ 482 Users'],['IPO GMP Data','❌ Basic','✅ Real-time GMP'],['F&O Greeks','❌ Basic','✅ Full Greeks']].map(r=>`<div class="cbr"><span class="cbf">${r[0]}</span><span class="cbs">${r[1]}</span><span class="cbb">${r[2]}</span></div>`).join('')}
   </div>
   <div class="qag">
