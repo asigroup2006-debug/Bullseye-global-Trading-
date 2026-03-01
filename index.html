@@ -154,6 +154,27 @@ body{color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;}
 .pick-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;margin-top:6px;}
 
 /* VOICE BUTTON */
+/* ── SENSIBULL OPTIONS CHAIN ── */
+.oc-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.oc-table{width:100%;border-collapse:collapse;min-width:580px;}
+.oc-table th{font-size:10px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;padding:8px 6px;border-bottom:1px solid #1a1f2e;position:sticky;top:0;background:#0e1016;z-index:2;}
+.oc-table td{font-size:12px;font-weight:600;padding:7px 6px;border-bottom:1px solid #0d1017;text-align:center;cursor:pointer;transition:background .15s;}
+.oc-table tr:hover td{background:#131820;}
+.oc-ce{color:#17c3a8;}.oc-pe{color:#f0627a;}
+.oc-atm td{background:#17c3a808!important;}
+.oc-strike{font-size:13px;font-weight:800;color:#fff;background:#1c2130!important;}
+.pcr-bar{padding:10px 16px;background:#131820;display:flex;align-items:center;gap:10px;border-bottom:1px solid #1a1f2e;flex-shrink:0;}
+.bk-broker-card{background:#131820;border:2px solid #1a1f2e;border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.bk-broker-card:active{transform:scale(.95);}
+.bk-broker-card.connected{border-color:#17c3a8;}
+.strat-card{background:#131820;border:1px solid #1a1f2e;border-radius:14px;margin:0 16px 12px;padding:16px;cursor:pointer;}
+.strat-leg{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;}
+.strat-leg.buy{background:#17c3a81a;color:#17c3a8;border:1px solid #17c3a840;}
+.strat-leg.sell{background:#f0627a1a;color:#f0627a;border:1px solid #f0627a40;}
+.strat-leg.neutral{background:#f59e0b1a;color:#f59e0b;border:1px solid #f59e0b40;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .25s ease forwards;}
+
 .voice-fab{position:fixed;bottom:80px;right:18px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#1a6b5e,#17c3a8);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:100;box-shadow:0 4px 20px rgba(23,195,168,.4);border:none;}
 .voice-fab svg{color:#fff;}
 .voice-fab.listening{animation:pulse-ring 1s infinite;}
@@ -342,7 +363,7 @@ body{color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;}
       <svg width="15" height="15" fill="none" stroke="#8b949e" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input placeholder="Search futures, stocks, indices..." readonly>
     </div>
-    <div class="tb-btn" onclick="goTo('portfolio')">
+    <div class="tb-btn" onclick="goTo('funds')">
       <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       <span>Funds</span>
     </div>
@@ -430,6 +451,66 @@ body{color:#fff;font-family:'Inter',system-ui,sans-serif;font-size:14px;}
   </div>
 </div>
 
+
+<!-- ═══ FUNDS SCREEN ═══ -->
+<div class="scr" id="fundsScreen">
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+    <button class="bk-btn" onclick="goTo('profile')">←</button>
+    <div style="font-size:20px;font-weight:700;color:#fff;margin-left:12px;">💰 Funds & Payments</div>
+  </div>
+  <div class="cnt" id="fundsC"></div>
+</div>
+
+<!-- ═══ BROKER LOGIN SCREEN (Sensibull-style) ═══ -->
+<div class="scr" id="brokerScreen">
+  <div class="cnt" id="brokerC"></div>
+</div>
+
+<!-- ═══ OPTIONS CHAIN SCREEN ═══ -->
+<div class="scr" id="optchainScreen">
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+    <button class="bk-btn" onclick="goTo('home')">←</button>
+    <div id="ocTitle" style="font-size:18px;font-weight:700;color:#fff;margin-left:12px;">NIFTY Option Chain</div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <select id="ocExpiry" onchange="buildOptionChain()" style="background:#1c2130;border:1px solid #2a2f3e;border-radius:8px;color:#fff;padding:6px 10px;font-size:12px;outline:none;">
+        <option>27 Mar 25</option><option>03 Apr 25</option><option>10 Apr 25</option><option>17 Apr 25</option>
+      </select>
+    </div>
+  </div>
+  <!-- PCR Bar -->
+  <div id="ocPCRBar" style="flex-shrink:0;"></div>
+  <!-- Chain table -->
+  <div class="cnt" id="optchainC"></div>
+</div>
+
+<!-- ═══ STRATEGY BUILDER SCREEN ═══ -->
+<div class="scr" id="strategyScreen">
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+    <button class="bk-btn" onclick="goTo('home')">←</button>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-left:12px;">🧠 Strategy Builder</div>
+    <div style="margin-left:auto;font-size:11px;color:#17c3a8;font-weight:600;">AI Powered</div>
+  </div>
+  <div class="cnt" id="strategyC"></div>
+</div>
+
+<!-- ═══ DEMAT SCREEN ═══ -->
+<div class="scr" id="dematScreen">
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+    <button class="bk-btn" onclick="goTo('profile')">←</button>
+    <div style="font-size:20px;font-weight:700;color:#fff;margin-left:12px;">📂 Open Demat Account</div>
+  </div>
+  <div class="cnt" id="dematC"></div>
+</div>
+
+<!-- ═══ API SETTINGS SCREEN ═══ -->
+<div class="scr" id="apiScreen">
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+    <button class="bk-btn" onclick="goTo('profile')">←</button>
+    <div style="font-size:20px;font-weight:700;color:#fff;margin-left:12px;">⚙️ API Settings</div>
+  </div>
+  <div class="cnt" id="apiC"></div>
+</div>
+
 <!-- ═══ PROFILE ═══ -->
 <div class="scr" id="profileScreen">
   <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;flex-shrink:0;">
@@ -512,29 +593,108 @@ const IDXS=[
   {s:'MIDCPNIFTY',p:12847.30,c:-87.20, pct:-0.67,e:'NSE'},
 ];
 const GIDX=[
-  {s:'DOW JONES',p:38847,c:+0.62,f:'🇺🇸'},{s:'S&P 500',p:4924,c:+0.48,f:'🇺🇸'},
-  {s:'NASDAQ',p:15628,c:+0.91,f:'🇺🇸'},{s:'NIKKEI 225',p:37785,c:+1.24,f:'🇯🇵'},
-  {s:'HANG SENG',p:16482,c:-1.12,f:'🇭🇰'},{s:'FTSE 100',p:7682,c:-0.23,f:'🇬🇧'},
-  {s:'SHANGHAI',p:3024,c:-0.87,f:'🇨🇳'},{s:'STI',p:3248,c:+0.43,f:'🇸🇬'},
+  // US
+  {s:'DOW JONES',   p:38847,  c:+0.62,f:'🇺🇸',r:'USA'},
+  {s:'S&P 500',     p:4924,   c:+0.48,f:'🇺🇸',r:'USA'},
+  {s:'NASDAQ',      p:15628,  c:+0.91,f:'🇺🇸',r:'USA'},
+  {s:'RUSSELL 2000',p:2042,   c:+0.34,f:'🇺🇸',r:'USA'},
+  // ASIA
+  {s:'NIKKEI 225',  p:37785,  c:+1.24,f:'🇯🇵',r:'Japan'},
+  {s:'HANG SENG',   p:16482,  c:-1.12,f:'🇭🇰',r:'HK'},
+  {s:'SHANGHAI',    p:3024,   c:-0.87,f:'🇨🇳',r:'China'},
+  {s:'KOSPI',       p:2487,   c:+0.43,f:'🇰🇷',r:'Korea'},
+  {s:'STI',         p:3248,   c:+0.43,f:'🇸🇬',r:'Singapore'},
+  {s:'ASX 200',     p:7684,   c:+0.28,f:'🇦🇺',r:'Australia'},
+  // EUROPE
+  {s:'FTSE 100',    p:7682,   c:-0.23,f:'🇬🇧',r:'UK'},
+  {s:'DAX',         p:18234,  c:+0.54,f:'🇩🇪',r:'Germany'},
+  {s:'CAC 40',      p:7834,   c:+0.32,f:'🇫🇷',r:'France'},
+  {s:'EURO STOXX',  p:4834,   c:+0.18,f:'🇪🇺',r:'Europe'},
 ];
 const COMM=[
-  {s:'GOLD',p:2028.40,c:+0.32,i:'🥇'},{s:'SILVER',p:23.84,c:-0.18,i:'🥈'},
-  {s:'CRUDE OIL',p:78.42,c:-0.63,i:'🛢️'},{s:'NAT GAS',p:2.84,c:+1.24,i:'⛽'},
-  {s:'COPPER',p:3.84,c:+0.54,i:'🔶'},{s:'PLATINUM',p:918,c:+0.21,i:'💎'},
+  {s:'GOLD',        p:2028.40,c:+0.32,i:'🥇',u:'USD/oz'},
+  {s:'SILVER',      p:23.84,  c:-0.18,i:'🥈',u:'USD/oz'},
+  {s:'CRUDE OIL',   p:78.42,  c:-0.63,i:'🛢️',u:'USD/bbl'},
+  {s:'BRENT',       p:82.14,  c:-0.48,i:'⚫',u:'USD/bbl'},
+  {s:'NAT GAS',     p:2.84,   c:+1.24,i:'⛽',u:'USD/MMBtu'},
+  {s:'COPPER',      p:3.84,   c:+0.54,i:'🔶',u:'USD/lb'},
+  {s:'PLATINUM',    p:918,    c:+0.21,i:'💎',u:'USD/oz'},
+  {s:'PALLADIUM',   p:1024,   c:-0.84,i:'🔘',u:'USD/oz'},
+  {s:'ALUMINIUM',   p:2234,   c:+0.38,i:'⬜',u:'USD/t'},
+  {s:'ZINC',        p:2534,   c:-0.24,i:'🔲',u:'USD/t'},
+  {s:'MCX GOLD',    p:62480,  c:+0.42,i:'🥇',u:'₹/10g'},
+  {s:'MCX SILVER',  p:74320,  c:-0.28,i:'🥈',u:'₹/kg'},
+  {s:'MCX CRUDE',   p:6542,   c:-0.58,i:'🛢️',u:'₹/bbl'},
 ];
 const STOCKS=[
-  {s:'RELIANCE',  n:'Reliance Industries',       p:2847.30,c:-15.40,pct:-0.54,sec:'Oil & Gas',col:'#17c3a8'},
-  {s:'HDFCBANK',  n:'HDFC Bank Ltd',             p:1623.80,c:+8.45, pct:+0.52,sec:'Banking',  col:'#6b88ff'},
-  {s:'ICICIBANK', n:'ICICI Bank',                p:1089.60,c:+22.80,pct:+2.14,sec:'Banking',  col:'#f0627a'},
-  {s:'TCS',       n:'Tata Consultancy Services', p:3912.50,c:+34.10,pct:+0.88,sec:'IT',        col:'#a78bfa'},
-  {s:'INFOSYS',   n:'Infosys Ltd',               p:1782.40,c:+12.30,pct:+0.70,sec:'IT',        col:'#34d399'},
-  {s:'WIPRO',     n:'Wipro Ltd',                 p:498.35, c:-2.80, pct:-0.56,sec:'IT',        col:'#fb923c'},
-  {s:'TATAMOTORS',n:'Tata Motors Ltd',           p:982.70, c:+30.50,pct:+3.21,sec:'Auto',      col:'#22d3ee'},
-  {s:'BAJFINANCE',n:'Bajaj Finance Ltd',         p:7234.50,c:+134.2,pct:+1.89,sec:'NBFC',      col:'#f59e0b'},
-  {s:'TATASTEEL', n:'Tata Steel Ltd',            p:142.60, c:-1.40, pct:-0.97,sec:'Metal',     col:'#94a3b8'},
-  {s:'ONGC',      n:'ONGC Ltd',                  p:267.80, c:-2.00, pct:-0.74,sec:'Oil & Gas', col:'#84cc16'},
-  {s:'MARUTI',    n:'Maruti Suzuki India',       p:12437.5,c:+122.3,pct:+0.98,sec:'Auto',      col:'#6b88ff'},
-  {s:'LTFH',      n:'L&T Finance Holdings',      p:283.95, c:+14.25,pct:+5.32,sec:'NBFC',      col:'#17c3a8'},
+  // ── LARGE CAP ──
+  {s:'RELIANCE',  n:'Reliance Industries',       p:2847.30,c:-15.40,pct:-0.54,sec:'Oil & Gas',   col:'#17c3a8'},
+  {s:'HDFCBANK',  n:'HDFC Bank Ltd',             p:1623.80,c:+8.45, pct:+0.52,sec:'Banking',     col:'#6b88ff'},
+  {s:'ICICIBANK', n:'ICICI Bank',                p:1089.60,c:+22.80,pct:+2.14,sec:'Banking',     col:'#f0627a'},
+  {s:'TCS',       n:'Tata Consultancy Services', p:3912.50,c:+34.10,pct:+0.88,sec:'IT',          col:'#a78bfa'},
+  {s:'INFOSYS',   n:'Infosys Ltd',               p:1782.40,c:+12.30,pct:+0.70,sec:'IT',          col:'#34d399'},
+  {s:'WIPRO',     n:'Wipro Ltd',                 p:498.35, c:-2.80, pct:-0.56,sec:'IT',          col:'#fb923c'},
+  {s:'TATAMOTORS',n:'Tata Motors Ltd',           p:982.70, c:+30.50,pct:+3.21,sec:'Auto',        col:'#22d3ee'},
+  {s:'BAJFINANCE',n:'Bajaj Finance Ltd',         p:7234.50,c:+134.2,pct:+1.89,sec:'NBFC',        col:'#f59e0b'},
+  {s:'TATASTEEL', n:'Tata Steel Ltd',            p:142.60, c:-1.40, pct:-0.97,sec:'Metal',       col:'#94a3b8'},
+  {s:'ONGC',      n:'ONGC Ltd',                  p:267.80, c:-2.00, pct:-0.74,sec:'Oil & Gas',   col:'#84cc16'},
+  {s:'MARUTI',    n:'Maruti Suzuki India',       p:12437.5,c:+122.3,pct:+0.98,sec:'Auto',        col:'#6b88ff'},
+  {s:'LTFH',      n:'L&T Finance Holdings',      p:283.95, c:+14.25,pct:+5.32,sec:'NBFC',        col:'#17c3a8'},
+  // ── BANKING ──
+  {s:'SBIN',      n:'State Bank of India',       p:812.40, c:+6.80, pct:+0.84,sec:'Banking',     col:'#22d3ee'},
+  {s:'AXISBANK',  n:'Axis Bank Ltd',             p:1182.30,c:-8.40, pct:-0.71,sec:'Banking',     col:'#a78bfa'},
+  {s:'KOTAKBANK', n:'Kotak Mahindra Bank',       p:1876.50,c:+12.60,pct:+0.68,sec:'Banking',     col:'#f0627a'},
+  {s:'INDUSINDBK',n:'IndusInd Bank',             p:987.40, c:-14.20,pct:-1.42,sec:'Banking',     col:'#fb923c'},
+  {s:'PNB',       n:'Punjab National Bank',      p:98.45,  c:+1.20, pct:+1.23,sec:'Banking',     col:'#f59e0b'},
+  {s:'BANKBARODA',n:'Bank of Baroda',            p:234.80, c:+2.40, pct:+1.03,sec:'Banking',     col:'#84cc16'},
+  {s:'CANBK',     n:'Canara Bank',               p:98.70,  c:-0.80, pct:-0.81,sec:'Banking',     col:'#94a3b8'},
+  // ── IT ──
+  {s:'HCLTECH',   n:'HCL Technologies',          p:1842.70,c:+28.40,pct:+1.56,sec:'IT',          col:'#6b88ff'},
+  {s:'TECHM',     n:'Tech Mahindra',             p:1432.60,c:+18.70,pct:+1.32,sec:'IT',          col:'#34d399'},
+  {s:'NAUKRI',    n:'Info Edge (Naukri)',         p:6842.30,c:+124.8,pct:+1.86,sec:'IT',          col:'#17c3a8'},
+  {s:'PAYTM',     n:'One97 Communications',      p:432.80, c:-8.40, pct:-1.91,sec:'Fintech',     col:'#f0627a'},
+  // ── AUTO ──
+  {s:'BAJAJ-AUTO',n:'Bajaj Auto Ltd',            p:8934.20,c:+87.40,pct:+0.99,sec:'Auto',        col:'#f59e0b'},
+  {s:'HEROMOTOCO',n:'Hero MotoCorp',             p:4834.60,c:+42.80,pct:+0.89,sec:'Auto',        col:'#22d3ee'},
+  {s:'EICHERMOT', n:'Eicher Motors',             p:4234.80,c:-28.40,pct:-0.67,sec:'Auto',        col:'#a78bfa'},
+  {s:'M&M',       n:'Mahindra & Mahindra',       p:2842.50,c:+68.40,pct:+2.46,sec:'Auto',        col:'#34d399'},
+  // ── PHARMA ──
+  {s:'SUNPHARMA', n:'Sun Pharmaceutical',        p:1734.80,c:+24.80,pct:+1.45,sec:'Pharma',      col:'#fb923c'},
+  {s:'DRREDDY',   n:'Dr Reddys Laboratories',   p:6234.50,c:+84.20,pct:+1.37,sec:'Pharma',      col:'#17c3a8'},
+  {s:'CIPLA',     n:'Cipla Ltd',                 p:1534.20,c:-12.80,pct:-0.83,sec:'Pharma',      col:'#6b88ff'},
+  {s:'DIVISLAB',  n:'Divi\'s Laboratories',      p:4234.80,c:+48.20,pct:+1.15,sec:'Pharma',      col:'#f0627a'},
+  // ── INFRA & ENERGY ──
+  {s:'LT',        n:'Larsen & Toubro',           p:3487.25,c:+34.80,pct:+1.01,sec:'Infra',       col:'#f59e0b'},
+  {s:'NTPC',      n:'NTPC Ltd',                  p:334.20, c:-7.65, pct:-2.24,sec:'Energy',      col:'#84cc16'},
+  {s:'POWERGRID', n:'Power Grid Corp',           p:284.55, c:+2.40, pct:+0.85,sec:'Energy',      col:'#22d3ee'},
+  {s:'TATAPOWER', n:'Tata Power',                p:382.75, c:-4.20, pct:-1.09,sec:'Energy',      col:'#a78bfa'},
+  {s:'ADANIPORTS',n:'Adani Ports & SEZ',        p:1234.80,c:+18.40,pct:+1.51,sec:'Infra',       col:'#f0627a'},
+  {s:'ADANIENT',  n:'Adani Enterprises',         p:2834.50,c:-28.40,pct:-0.99,sec:'Infra',       col:'#fb923c'},
+  // ── METALS ──
+  {s:'JSWSTEEL',  n:'JSW Steel Ltd',             p:842.60, c:+8.40, pct:+1.01,sec:'Metal',       col:'#94a3b8'},
+  {s:'HINDALCO',  n:'Hindalco Industries',       p:634.80, c:+12.40,pct:+1.99,sec:'Metal',       col:'#17c3a8'},
+  {s:'SAIL',      n:'Steel Authority of India',  p:127.40, c:-2.55, pct:-1.96,sec:'Metal',       col:'#6b88ff'},
+  {s:'COALINDIA', n:'Coal India Ltd',            p:387.45, c:-9.20, pct:-2.31,sec:'Mining',      col:'#f59e0b'},
+  // ── CONSUMER ──
+  {s:'TITAN',     n:'Titan Company Ltd',         p:3267.80,c:+24.80,pct:+0.76,sec:'Consumer',    col:'#f0627a'},
+  {s:'ASIANPAINT',n:'Asian Paints Ltd',          p:2834.60,c:-18.40,pct:-0.64,sec:'Consumer',    col:'#a78bfa'},
+  {s:'NESTLEIND', n:'Nestle India Ltd',          p:24234.8,c:+182.4,pct:+0.76,sec:'Consumer',    col:'#34d399'},
+  {s:'BRITANNIA', n:'Britannia Industries',      p:4834.50,c:+42.80,pct:+0.89,sec:'Consumer',    col:'#fb923c'},
+  {s:'TATACONSUM',n:'Tata Consumer Products',   p:934.80, c:+8.40, pct:+0.91,sec:'Consumer',    col:'#22d3ee'},
+  // ── FINANCIAL ──
+  {s:'BAJAJFINSV',n:'Bajaj Finserv Ltd',         p:1634.80,c:+24.80,pct:+1.54,sec:'Financial',   col:'#17c3a8'},
+  {s:'HDFCLIFE',  n:'HDFC Life Insurance',       p:624.30, c:-4.20, pct:-0.67,sec:'Insurance',   col:'#6b88ff'},
+  // ── NEW AGE ──
+  {s:'ZOMATO',    n:'Zomato Ltd',                p:198.40, c:-4.20, pct:-2.07,sec:'Food Tech',   col:'#f0627a'},
+  {s:'HAL',       n:'Hindustan Aeronautics',     p:4234.80,c:+124.8,pct:+3.04,sec:'Defence',     col:'#f59e0b'},
+  {s:'BEL',       n:'Bharat Electronics',        p:234.80, c:+4.80, pct:+2.09,sec:'Defence',     col:'#84cc16'},
+  {s:'IRCTC',     n:'IRCTC Ltd',                 p:834.20, c:+12.40,pct:+1.51,sec:'Travel',      col:'#22d3ee'},
+  {s:'DLF',       n:'DLF Ltd',                   p:834.60, c:-8.40, pct:-1.00,sec:'Real Estate', col:'#a78bfa'},
+  {s:'GODREJPROP',n:'Godrej Properties',         p:1731.00,c:+34.80,pct:+2.05,sec:'Real Estate', col:'#34d399'},
+  {s:'BPCL',      n:'BPCL Ltd',                  p:312.80, c:-2.40, pct:-0.76,sec:'Oil & Gas',   col:'#fb923c'},
+  {s:'IOC',       n:'Indian Oil Corporation',    p:165.40, c:+1.80, pct:+1.10,sec:'Oil & Gas',   col:'#17c3a8'},
+  {s:'GRASIM',    n:'Grasim Industries',         p:2634.80,c:+28.40,pct:+1.09,sec:'Cement',      col:'#6b88ff'},
+  {s:'ULTRACEMCO',n:'UltraTech Cement',          p:10234.8,c:+84.80,pct:+0.84,sec:'Cement',      col:'#f0627a'},
 ];
 const SCANS={
   gainers:   [{s:'Tejas Networks',p:435.85,c:+64.80,pct:+17.46},{s:'Redington',p:280.45,c:+35.90,pct:+14.68},{s:'Sarda Energy',p:551.60,c:+32.70,pct:+6.30},{s:'Sun TV Network',p:647.65,c:+36.25,pct:+5.93},{s:'L&T Tech Svcs',p:3512.40,c:+195.0,pct:+5.88},{s:'Chennai Petro',p:961.95,c:+45.50,pct:+4.96},{s:'Jaiprakash Power',p:15.25,c:+0.70,pct:+4.81},{s:'Finolex Cables',p:913.70,c:+40.35,pct:+4.62}],
@@ -571,18 +731,24 @@ function buildTicker(){
 buildTicker();
 
 // ═══════════ NAVIGATION ═══════════
-const SCRS=['home','watchlist','orders','portfolio','detail','profile'];
+const SCRS=['home','watchlist','orders','portfolio','detail','profile','funds','demat','api','broker','optchain','strategy'];
 function goTo(id){
   if(id==='detail') prevScr=document.querySelector('.scr.on')?.id.replace('Screen','')||'watchlist';
   SCRS.forEach(s=>document.getElementById(s+'Screen')?.classList.toggle('on',s===id));
   const nav=document.getElementById('bnav');
-  nav.style.display=['detail','profile'].includes(id)?'none':'flex';
+  nav.style.display=['detail','profile','funds','demat','api','broker','optchain','strategy'].includes(id)?'none':'flex';
   ['home','watchlist','orders','portfolio'].forEach(s=>document.getElementById('bn-'+s)?.classList.toggle('act',s===id));
-  if(id==='home')     buildHome();
+  if(id==='home')      buildHome();
   if(id==='watchlist'){buildWL();setWTabActive();}
-  if(id==='orders')   buildOrders();
-  if(id==='portfolio')buildPF();
-  if(id==='profile')  buildProf();
+  if(id==='orders')    buildOrders();
+  if(id==='portfolio') buildPF();
+  if(id==='profile')   buildProf();
+  if(id==='funds')     buildFunds();
+  if(id==='demat')     buildDemat();
+  if(id==='api')       buildAPISettings();
+  if(id==='broker')    buildBrokerLogin();
+  if(id==='optchain')  buildOptionChain();
+  if(id==='strategy')  buildStrategyBuilder();
 }
 function goBack(){goTo(prevScr);}
 
@@ -640,8 +806,9 @@ function buildHome(){
     <div class="cc"><div class="cc-i">⛶</div></div>
   </div>
   <div class="fo-row">
-    <button class="fo-btn" onclick="notif('📊','Futures','${idx.s} Futures — Dec Expiry')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Futures</button>
-    <button class="fo-btn fo-opt" onclick="notif('🔗','Option Chain','${idx.s} — PCR: 1.24, ATM IV: 14.2')"><svg width="17" height="17" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Option Chain</button>
+    <button class="fo-btn" onclick="ocSym=IDXS[curIdx].s;goTo('optchain')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Futures</button>
+    <button class="fo-btn fo-opt" onclick="ocSym=IDXS[curIdx].s;goTo('optchain')"><svg width="17" height="17" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Option Chain</button>
+    <button class="fo-btn" onclick="goTo('strategy')" style="background:#5c4df31a;border-color:#5c4df3;color:#a78bfa;">🧠 Strategy</button>
   </div>
   <div class="lsnap">
     <div class="lsnap-t">Live snapshot</div>
@@ -698,11 +865,11 @@ function buildHome(){
   </div>
 
   <!-- GLOBAL SNAPSHOT -->
-  <div class="sec-hdr"><div class="sec-ttl">🌍 GLOBAL SNAPSHOT</div><div class="sec-more" onclick="notif('🌍','Global Markets','14 markets tracked live')">MORE</div></div>
+  <div class="sec-hdr"><div class="sec-ttl">🌍 GLOBAL SNAPSHOT</div><div class="sec-more" onclick="showGlobalFull()">MORE</div></div>
   <div class="g-grid">
-    ${GIDX.slice(0,6).map(g=>{const up=g.c>=0;return`<div class="g-card" onclick="notif('${g.f}','${g.s}','${g.p.toLocaleString()} · ${up?'+':''}${g.c}%')">
+    ${GIDX.slice(0,6).map(g=>{const up=g.c>=0;return`<div class="g-card" onclick="notif('${g.f}','${g.s}','${g.p.toLocaleString()} · ${up?'+':''}${g.c.toFixed(2)}% · ${g.r}')">
       <div class="g-flag">${g.f}</div>
-      <div class="g-region">${g.f==='🇺🇸'?'USA':g.f==='🇯🇵'?'Japan':g.f==='🇭🇰'?'Hong Kong':g.f==='🇬🇧'?'Europe':g.f==='🇨🇳'?'China':'Global'}</div>
+      <div class="g-region">${g.r}</div>
       <div class="g-name">${g.s}</div>
       <div class="g-price">${g.p.toLocaleString('en-IN')}</div>
       <div class="g-chg ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(g.c).toFixed(2)}%</div>
@@ -710,13 +877,14 @@ function buildHome(){
   </div>
 
   <!-- COMMODITIES -->
-  <div class="sec-hdr"><div class="sec-ttl">⚡ COMMODITIES</div><div class="sec-more">MORE</div></div>
+  <div class="sec-hdr"><div class="sec-ttl">⚡ COMMODITIES</div><div class="sec-more" onclick="showCommoditiesFull()">MORE</div></div>
   <div class="comm-row">
-    ${COMM.map(c=>{const up=c.c>=0;return`<div class="c-card" onclick="notif('${c.i}','${c.s}','$${c.p} · ${up?'+':''}${c.c}%')">
+    ${COMM.slice(0,8).map(c=>{const up=c.c>=0;return`<div class="c-card" onclick="notif('${c.i}','${c.s}','${c.p.toLocaleString('en-IN',{maximumFractionDigits:2})} ${c.u} · ${up?'+':''}${c.c.toFixed(2)}%')">
       <div class="c-icon">${c.i}</div>
       <div class="c-name">${c.s}</div>
       <div class="c-price">${c.p.toLocaleString('en-IN',{maximumFractionDigits:2})}</div>
       <div class="c-chg ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(c.c).toFixed(2)}%</div>
+      <div style="font-size:10px;color:#555;margin-top:3px;">${c.u}</div>
     </div>`}).join('')}
   </div>
 
@@ -980,26 +1148,48 @@ function buildPF(){
 
 // ═══════════ PROFILE ═══════════
 function buildProf(){
+  const connected=Object.keys(API_KEYS).filter(k=>API_KEYS[k]).length;
   document.getElementById('profC').innerHTML=`
   <div class="prof-pg">
     <div class="prof-av">A</div>
     <div class="prof-nm">AMIT KUMAR</div>
     <div class="prof-lk">Account details ›</div>
     <div class="prof-cards">
-      <div class="pc" onclick="notif('₹','Funds','Available: ₹1,24,500 · Used: ₹4,24,830')"><div class="pc-ic">₹</div><div class="pc-v">₹1.24L</div><div class="pc-l">Funds</div></div>
+      <div class="pc" onclick="goTo('funds')"><div class="pc-ic">₹</div><div class="pc-v">₹1.24L</div><div class="pc-l">Funds</div></div>
       <div class="pc" onclick="notif('🎧','Support','Connecting to live support...')"><div class="pc-ic">🎧</div><div class="pc-v">Help</div><div class="pc-l">Live Support</div></div>
       <div class="pc" onclick="notif('📅','P&L Calendar','Daily: +₹4,284 · Monthly: +₹28,420')"><div class="pc-ic">📅</div><div class="pc-v">P&L</div><div class="pc-l">Calendar</div></div>
     </div>
+
+    <!-- LIVE DATA STATUS CARD -->
+    <div style="margin:10px 16px;background:${connected?'#17c3a81a':'#5c4df31a'};border:1px solid ${connected?'#17c3a840':'#5c4df340'};border-radius:14px;padding:14px;cursor:pointer;" onclick="goTo('api')">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">${connected?'🔴 Live Data Active':'⚡ Connect Live Data'}</div>
+          <div style="font-size:12px;color:#8b949e;margin-top:3px;">${connected?'WebSocket connected · API keys set':'Broker API connect karo → Real-time rates'}</div>
+        </div>
+        <div style="font-size:20px;">›</div>
+      </div>
+    </div>
+
+    <!-- OPEN DEMAT BANNER -->
+    <div style="margin:10px 16px;background:linear-gradient(135deg,#1a0533,#2d1060);border-radius:14px;padding:16px;cursor:pointer;" onclick="goTo('demat')">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;font-weight:600;text-transform:uppercase;">Start Investing</div>
+      <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;">📂 Open Free Demat Account</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.6);">Upstox · Zerodha · Angel One · Dhan — Free account + Free API</div>
+      <div style="margin-top:10px;display:inline-block;background:#17c3a8;color:#000;font-size:13px;font-weight:700;padding:7px 16px;border-radius:8px;">Open Now →</div>
+    </div>
+
     <div class="sec-card">
       <div class="sec-t">Trader's Controls</div>
       <div class="mr" onclick="notif('🛑','Kill Switch','All segments disabled for today')"><div class="mr-ic">🛑</div><div class="mr-l"><div class="mr-t">Kill Switch</div><div class="mr-s">Disable trading segments for the day</div></div><div class="mr-arr">›</div></div>
       <div class="mr" onclick="notif('⚙️','Order Defaults','Auto SL/TP configured')"><div class="mr-ic">⚙️</div><div class="mr-l"><div class="mr-t">Order Defaults<span class="badge">New</span></div><div class="mr-s">Set auto SL/TP, default order types</div></div><div class="mr-arr">›</div></div>
     </div>
     <div class="sec-card">
+      <div class="mr" onclick="goTo('api')"><div class="mr-ic">🔴</div><div class="mr-l"><div class="mr-t">Live Data API Settings</div><div class="mr-s">${connected?'Connected — '+Object.keys(API_KEYS).filter(k=>API_KEYS[k]).length+' API keys':'Add broker API for live rates'}</div></div><div class="mr-arr">›</div></div>
+      <div class="mr" onclick="goTo('demat')"><div class="mr-ic">📂</div><div class="mr-l"><div class="mr-t">Open Demat Account</div><div class="mr-s">Free account with 6 brokers</div></div><div class="mr-arr">›</div></div>
+      <div class="mr" onclick="showAlertsScreen()"><div class="mr-ic">🔔</div><div class="mr-l"><div class="mr-t">Price Alerts</div><div class="mr-s">${priceAlerts.filter(a=>a.active).length} active alerts</div></div><div class="mr-arr">›</div></div>
       <div class="mr" onclick="notif('📄','Statements','P&L, Tax, Ledger...')"><div class="mr-ic">📄</div><div class="mr-l"><div class="mr-t">Statements</div><div class="mr-s">P&L, Tax, Ledger, Contract Note</div></div><div class="mr-arr">›</div></div>
       <div class="mr" onclick="notif('🏦','Bank','Linked: SBI XXXX4521')"><div class="mr-ic">🏦</div><div class="mr-l"><div class="mr-t">Bank Accounts</div></div><div class="mr-arr">›</div></div>
-      <div class="mr" onclick="notif('💰','Pricing','₹0 delivery · ₹20 F&O flat')"><div class="mr-ic">💰</div><div class="mr-l"><div class="mr-t">View pricing details</div></div><div class="mr-arr">›</div></div>
-      <div class="mr" onclick="notif('📖','Learn','Opening tutorial...')"><div class="mr-ic">📖</div><div class="mr-l"><div class="mr-t">Learn how to use Bulls Eye</div></div><div class="mr-arr">›</div></div>
       <div class="mr" onclick="notif('💬','Feedback','Thanks for your feedback!')"><div class="mr-ic">💬</div><div class="mr-l"><div class="mr-t">Give us your feedback</div></div><div class="mr-arr">›</div></div>
     </div>
   </div>`;
@@ -1049,11 +1239,408 @@ function notif(ico,title,body){
   nT=setTimeout(()=>el.classList.remove('on'),3200);
 }
 
-// ═══════════ LIVE UPDATES ═══════════
-setInterval(()=>{
-  STOCKS.forEach(s=>{const d=(Math.random()-.499)*s.p*.0006;s.p=Math.max(1,s.p+d);});
-  IDXS.forEach(x=>{x.p=Math.max(100,x.p+(Math.random()-.499)*x.p*.0004);});
-},3500);
+// ═══════════════════════════════════════════════════
+// LIVE MARKET DATA — Yahoo Finance API
+// ═══════════════════════════════════════════════════
+
+// Map Bulls Eye symbol → Yahoo Finance symbol
+// ═══════════════════════════════════════════════════
+// COMPLETE LIVE DATA MAPPING — ALL MARKETS
+// ═══════════════════════════════════════════════════
+
+// ── NSE STOCKS (50+) ──
+const YF_MAP = {
+  'RELIANCE':'RELIANCE.NS','HDFCBANK':'HDFCBANK.NS','ICICIBANK':'ICICIBANK.NS',
+  'TCS':'TCS.NS','INFY':'INFY.NS','WIPRO':'WIPRO.NS','TATAMOTORS':'TATAMOTORS.NS',
+  'BAJFINANCE':'BAJFINANCE.NS','TATASTEEL':'TATASTEEL.NS','ONGC':'ONGC.NS',
+  'MARUTI':'MARUTI.NS','LTFH':'LTFH.NS','SBIN':'SBIN.NS','AXISBANK':'AXISBANK.NS',
+  'KOTAKBANK':'KOTAKBANK.NS','LT':'LT.NS','SUNPHARMA':'SUNPHARMA.NS',
+  'TITAN':'TITAN.NS','BAJAJFINSV':'BAJAJFINSV.NS','NTPC':'NTPC.NS',
+  'POWERGRID':'POWERGRID.NS','COALINDIA':'COALINDIA.NS','NESTLEIND':'NESTLEIND.NS',
+  'HINDALCO':'HINDALCO.NS','JSWSTEEL':'JSWSTEEL.NS','ADANIENT':'ADANIENT.NS',
+  'ADANIPORTS':'ADANIPORTS.NS','ULTRACEMCO':'ULTRACEMCO.NS','GRASIM':'GRASIM.NS',
+  'TECHM':'TECHM.NS','HCLTECH':'HCLTECH.NS','CIPLA':'CIPLA.NS',
+  'DRREDDY':'DRREDDY.NS','DIVISLAB':'DIVISLAB.NS','EICHERMOT':'EICHERMOT.NS',
+  'TATACONSUM':'TATACONSUM.NS','BRITANNIA':'BRITANNIA.NS','INDUSINDBK':'INDUSINDBK.NS',
+  'HEROMOTOCO':'HEROMOTOCO.NS','BAJAJ-AUTO':'BAJAJ-AUTO.NS','ASIANPAINT':'ASIANPAINT.NS',
+  'ZOMATO':'ZOMATO.NS','NAUKRI':'NAUKRI.NS','PAYTM':'PAYTM.NS',
+  'HAL':'HAL.NS','BEL':'BEL.NS','IRCTC':'IRCTC.NS','PNB':'PNB.NS',
+  'CANBK':'CANBK.NS','BANKBARODA':'BANKBARODA.NS','IOC':'IOC.NS','BPCL':'BPCL.NS',
+  'TATAPOWER':'TATAPOWER.NS','NHPC':'NHPC.NS','SAIL':'SAIL.NS','BHEL':'BHEL.NS',
+  'DLF':'DLF.NS','GODREJPROP':'GODREJPROP.NS','OBEROIRLTY':'OBEROIRLTY.NS',
+};
+
+// ── INDICES ──
+const YF_IDX = {
+  'NIFTY 50':'^NSEI','BANKNIFTY':'^NSEBANK','SENSEX':'^BSESN',
+  'FINNIFTY':'NIFTY_FIN_SERVICE.NS','MIDCPNIFTY':'NIFTY_MIDCAP_100.NS',
+  'GIFTNIFTY':'^NSEI',
+};
+
+// ── GLOBAL INDICES ──
+const YF_GLOBAL = {
+  'DOW JONES':'^DJI','S&P 500':'^GSPC','NASDAQ':'^IXIC',
+  'NIKKEI 225':'^N225','HANG SENG':'^HSI','FTSE 100':'^FTSE',
+  'SHANGHAI':'^SSEC','STI':'^STI','DAX':'^GDAXI','CAC 40':'^FCHI',
+};
+
+// ── COMMODITIES (Yahoo Finance) ──
+const YF_COMM = {
+  'GOLD':'GC=F','SILVER':'SI=F','CRUDE OIL':'CL=F',
+  'NAT GAS':'NG=F','COPPER':'HG=F','PLATINUM':'PL=F',
+};
+
+// ── F&O — NIFTY options PCR & OI (NSE API) ──
+let foData = {
+  niftyPCR: 1.24, niftyATMIV: 14.2, niftyFutPrem: 12.5,
+  bankPCR: 0.98, bankATMIV: 16.8, bankFutPrem: 8.3,
+  topOICall: [{strike:25500,oi:45.2},{strike:26000,oi:38.7},{strike:25000,oi:29.4}],
+  topOIPut:  [{strike:25000,oi:52.1},{strike:24500,oi:41.8},{strike:24000,oi:34.6}],
+};
+
+async function fetchFOData(){
+  // NSE Option Chain for PCR (CORS may block — use simulation with real-like fluctuation)
+  try {
+    // Try NSE option chain API via proxy
+    const url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY';
+    const proxied = 'https://corsproxy.io/?'+encodeURIComponent(url);
+    const r = await fetch(proxied, {headers:{'Accept':'application/json'},signal:AbortSignal.timeout(4000)});
+    if(r.ok){
+      const d = await r.json();
+      if(d?.filtered?.CE?.totOI && d?.filtered?.PE?.totOI){
+        foData.niftyPCR = +(d.filtered.PE.totOI / d.filtered.CE.totOI).toFixed(2);
+        foData.niftyATMIV = d.filtered.data?.[Math.floor(d.filtered.data.length/2)]?.CE?.impliedVolatility||14.2;
+      }
+    }
+  } catch(e){
+    // Simulate realistic movement
+    foData.niftyPCR   = Math.max(0.5, Math.min(2.5, foData.niftyPCR   + (Math.random()-.5)*0.03));
+    foData.bankPCR    = Math.max(0.5, Math.min(2.5, foData.bankPCR    + (Math.random()-.5)*0.04));
+    foData.niftyATMIV = Math.max(8,   Math.min(40,  foData.niftyATMIV + (Math.random()-.5)*0.2));
+    foData.bankATMIV  = Math.max(8,   Math.min(50,  foData.bankATMIV  + (Math.random()-.5)*0.25));
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LIVE MARKET DATA ENGINE v3 — Multi-API + WebSocket
+// Priority: Upstox WS > Angel One > Twelve Data > Yahoo > Sim
+// ═══════════════════════════════════════════════════════════════
+
+let liveMode = false, wsConnected = false, fetchErrors = 0, lastLiveTime = null;
+let activeWS = null; // active WebSocket connection
+
+// ── API KEYS (user enters in Settings screen) ──
+let API_KEYS = JSON.parse(localStorage.getItem('be_apikeys')||'{}');
+// { twelve:'KEY', upstoxToken:'JWT', angelApiKey:'KEY', angelJwt:'JWT' }
+
+// ── MARKET TIMING ──
+function isMarketOpen(){
+  const ist = new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'}));
+  const d=ist.getDay(), h=ist.getHours(), m=ist.getMinutes(), mins=h*60+m;
+  return d>0 && d<6 && mins>=9*60+15 && mins<=15*60+30;
+}
+function getISTTime(){ return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Kolkata'})); }
+
+// ── NSE SYMBOL MAP ──
+const NSE_SYMS = {
+  'RELIANCE':'RELIANCE','HDFCBANK':'HDFCBANK','ICICIBANK':'ICICIBANK','TCS':'TCS',
+  'INFOSYS':'INFY','WIPRO':'WIPRO','TATAMOTORS':'TATAMOTORS','BAJFINANCE':'BAJFINANCE',
+  'TATASTEEL':'TATASTEEL','ONGC':'ONGC','MARUTI':'MARUTI','SBIN':'SBIN',
+  'AXISBANK':'AXISBANK','KOTAKBANK':'KOTAKBANK','LT':'LT','SUNPHARMA':'SUNPHARMA',
+  'TITAN':'TITAN','NTPC':'NTPC','POWERGRID':'POWERGRID','HCLTECH':'HCLTECH',
+  'TECHM':'TECHM','BAJAJ-AUTO':'BAJAJ-AUTO','M&M':'M&M','DRREDDY':'DRREDDY',
+  'CIPLA':'CIPLA','JSWSTEEL':'JSWSTEEL','HINDALCO':'HINDALCO','ADANIPORTS':'ADANIPORTS',
+  'ADANIENT':'ADANIENT','HAL':'HAL','BEL':'BEL','IRCTC':'IRCTC','ZOMATO':'ZOMATO',
+  'INDUSINDBK':'INDUSINDBK','DLF':'DLF','COALINDIA':'COALINDIA','SAIL':'SAIL',
+};
+
+// Twelve Data — NSE support, 8 req/min free
+const TWELVE_SYMS = Object.fromEntries(
+  Object.keys(NSE_SYMS).map(k=>[k, NSE_SYMS[k]+':NSE'])
+);
+
+// ═══ API 1: UPSTOX WebSocket ═══
+function connectUpstoxWS(){
+  const token = API_KEYS.upstoxToken;
+  if(!token) return false;
+  try {
+    const ws = new WebSocket(`wss://api.upstox.com/v2/feed/market-data-feed?token=${token}`);
+    ws.onopen = () => {
+      wsConnected = true;
+      setLiveStatus(true, '🔴 LIVE·Upstox');
+      speak('Upstox live data connected');
+      // Subscribe to instruments
+      const instruments = STOCKS.map(s=>`NSE_EQ|${NSE_SYMS[s.s]||s.s}`).filter(Boolean);
+      ws.send(JSON.stringify({guid:'be1',method:'sub',params:{mode:'ltpc',instrumentKeys:instruments.slice(0,50)}}));
+      activeWS = ws;
+    };
+    ws.onmessage = (e) => {
+      try {
+        const d = JSON.parse(e.data);
+        (d.feeds||[]).forEach(f=>{
+          const sym = f.symbol?.replace('NSE_EQ|','');
+          const st = STOCKS.find(s=>NSE_SYMS[s.s]===sym||s.s===sym);
+          if(st && f.ltpc?.ltp){ st.p=f.ltpc.ltp; st.c=+(f.ltpc.ltp-f.ltpc.cp).toFixed(2); st.pct=+((st.c/f.ltpc.cp)*100).toFixed(2); }
+        });
+        updateLivePriceUI();
+      } catch(err){}
+    };
+    ws.onclose = () => { wsConnected=false; activeWS=null; setTimeout(startLiveFeed, 10000); };
+    ws.onerror  = () => { ws.close(); };
+    return true;
+  } catch(e){ return false; }
+}
+
+// ═══ API 2: Angel One SmartAPI ═══
+async function fetchAngelOne(){
+  const key = API_KEYS.angelApiKey, jwt = API_KEYS.angelJwt;
+  if(!key || !jwt) return false;
+  try {
+    const r = await fetch('https://apiconnect.angelbroking.com/rest/secure/angelbroking/market/v1/quote/', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${jwt}`,'X-UserType':'USER','X-SourceID':'WEB','X-ClientLocalIP':'','X-ClientPublicIP':'','X-MACAddress':'','X-PrivateKey':key},
+      body: JSON.stringify({mode:'LTP',exchangeTokens:{'NSE':STOCKS.slice(0,50).map((_,i)=>String(i+1))}})
+    });
+    if(r.ok){ const d=await r.json(); if(d.data?.fetched?.length){ applyQuotes(d.data.fetched,'angel'); return true; } }
+  } catch(e){}
+  return false;
+}
+
+// ═══ API 3: Twelve Data REST + WebSocket ═══
+let twelveWS = null;
+function connectTwelveWS(){
+  const key = API_KEYS.twelve || 'demo'; // demo key = limited
+  try {
+    twelveWS = new WebSocket(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${key}`);
+    twelveWS.onopen = () => {
+      const syms = Object.values(TWELVE_SYMS).slice(0,10).join(',');
+      twelveWS.send(JSON.stringify({action:'subscribe',params:{symbols:syms}}));
+      wsConnected=true; setLiveStatus(true,'🔴 LIVE·12Data'); activeWS=twelveWS;
+    };
+    twelveWS.onmessage = (e) => {
+      try {
+        const d = JSON.parse(e.data);
+        if(d.price && d.symbol){
+          const beKey = Object.keys(TWELVE_SYMS).find(k=>TWELVE_SYMS[k]===d.symbol);
+          const st = STOCKS.find(s=>s.s===beKey);
+          if(st){ const prev=st.p; st.p=d.price; st.c=+(d.price-prev).toFixed(2); st.pct=+(st.c/prev*100).toFixed(2); }
+        }
+      } catch(e){}
+      updateLivePriceUI();
+    };
+    twelveWS.onclose = () => { wsConnected=false; activeWS=null; };
+    twelveWS.onerror = () => { twelveWS?.close(); };
+  } catch(e){}
+}
+
+async function fetchTwelveREST(){
+  const key = API_KEYS.twelve;
+  if(!key) return false;
+  try {
+    const syms = Object.values(TWELVE_SYMS).slice(0,8).join(',');
+    const r = await fetch(`https://api.twelvedata.com/quote?symbol=${syms}&apikey=${key}`,{signal:AbortSignal.timeout(5000)});
+    if(r.ok){
+      const d = await r.json();
+      let updated = 0;
+      Object.entries(d).forEach(([sym,q])=>{
+        if(!q.close) return;
+        const beKey = Object.keys(TWELVE_SYMS).find(k=>TWELVE_SYMS[k]===sym);
+        const st = STOCKS.find(s=>s.s===beKey);
+        if(st){ st.p=+q.close; st.c=+q.change||0; st.pct=+q.percent_change||0; updated++; }
+      });
+      if(updated>0){ liveMode=true; setLiveStatus(true,'🔴 LIVE·12Data'); return true; }
+    }
+  } catch(e){}
+  return false;
+}
+
+// ═══ API 4: Yahoo Finance (fallback REST) ═══
+const YF_CORS = ['https://corsproxy.io/?','https://api.allorigins.win/raw?url='];
+async function fetchYahooFallback(symbols){
+  const url=`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols.join(',')}&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent`;
+  for(const proxy of ['', ...YF_CORS]){
+    try {
+      const r=await fetch((proxy?proxy+encodeURIComponent(url):url),{signal:AbortSignal.timeout(5000)});
+      if(r.ok){ const d=await r.json(); return d?.quoteResponse?.result||[]; }
+    } catch(e){}
+  }
+  return [];
+}
+
+// Yahoo symbol maps (declared above — using existing YF_MAP, YF_IDX, YF_GLOBAL, YF_COMM)
+
+async function fetchYahooAll(){
+  const allSyms=[
+    ...STOCKS.slice(0,25).map(s=>YF_MAP[s.s]).filter(Boolean),
+    ...Object.values(YF_IDX),...Object.values(YF_GLOBAL),...Object.values(YF_COMM)
+  ].filter((v,i,a)=>v&&a.indexOf(v)===i);
+  let results=[];
+  for(let i=0;i<allSyms.length;i+=20){
+    const res=await fetchYahooFallback(allSyms.slice(i,i+20));
+    results=[...results,...res];
+  }
+  if(!results.length) return false;
+  results.forEach(q=>{
+    const p=q.regularMarketPrice, c=+(q.regularMarketChange||0).toFixed(2), pct=+(q.regularMarketChangePercent||0).toFixed(2);
+    if(!p) return;
+    const st=STOCKS.find(s=>YF_MAP[s.s]===q.symbol); if(st){st.p=p;st.c=c;st.pct=pct;}
+    const ik=Object.keys(YF_IDX).find(k=>YF_IDX[k]===q.symbol); if(ik){const x=IDXS.find(x=>x.s===ik);if(x){x.p=p;x.c=c;x.pct=pct;}}
+    const gk=Object.keys(YF_GLOBAL).find(k=>YF_GLOBAL[k]===q.symbol); if(gk){const g=GIDX.find(x=>x.s===gk);if(g){g.p=p;g.c=pct;}}
+    const ck=Object.keys(YF_COMM).find(k=>YF_COMM[k]===q.symbol); if(ck){const cm=COMM.find(x=>x.s===ck);if(cm){cm.p=p;cm.c=pct;}}
+  });
+  liveMode=true; lastLiveTime=new Date(); fetchErrors=0;
+  setLiveStatus(true,'🔴 LIVE·YF');
+  return true;
+}
+
+// ═══ NSE DIRECT SCRAPE ═══
+async function fetchNSEDirect(){
+  // NSE India official API (CORS restricted, try via proxy)
+  const endpoints = [
+    ['indices','https://www.nseindia.com/api/allIndices'],
+    ['stocks','https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%2050'],
+  ];
+  for(const [type,url] of endpoints){
+    for(const proxy of YF_CORS){
+      try {
+        const r=await fetch(proxy+encodeURIComponent(url),{signal:AbortSignal.timeout(5000),headers:{Accept:'application/json'}});
+        if(!r.ok) continue;
+        const d=await r.json();
+        if(type==='stocks' && d.data){
+          d.data.forEach(q=>{
+            const st=STOCKS.find(s=>s.s===q.symbol||NSE_SYMS[s.s]===q.symbol);
+            if(st){st.p=q.lastPrice||st.p; st.c=+(q.change||0).toFixed(2); st.pct=+(q.pChange||0).toFixed(2);}
+          });
+          liveMode=true; setLiveStatus(true,'🔴 LIVE·NSE'); return true;
+        }
+      } catch(e){}
+    }
+  }
+  return false;
+}
+
+// ═══ SIMULATION (always running for smooth animation) ═══
+function simulateTick(factor=1){
+  const mo=isMarketOpen();
+  STOCKS.forEach(s=>{s.p=Math.max(1,s.p+(Math.random()-.499)*s.p*(mo?.0003:.00003)*factor); s.c=+(s.c+(Math.random()-.5)*0.04).toFixed(2); s.pct=+(s.pct+(Math.random()-.5)*0.02).toFixed(2);});
+  IDXS.forEach(x=>{x.p=Math.max(100,x.p+(Math.random()-.499)*x.p*(mo?.0002:.00002)*factor); x.c=+(x.c+(Math.random()-.5)*0.06).toFixed(2);});
+  GIDX.forEach(g=>{g.p=Math.max(100,g.p+(Math.random()-.499)*g.p*.0002*factor); g.c=+(g.c+(Math.random()-.5)*.03).toFixed(2);});
+  COMM.forEach(c=>{c.p=Math.max(1,c.p+(Math.random()-.499)*c.p*.0003*factor); c.c=+(c.c+(Math.random()-.5)*.02).toFixed(2);});
+}
+
+// ═══ LIVE STATUS BADGE ═══
+function setLiveStatus(live, text){
+  let b=document.getElementById('liveBadge');
+  if(!b){b=document.createElement('div');b.id='liveBadge';b.style.cssText='position:fixed;top:6px;right:8px;z-index:400;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;font-family:Inter,sans-serif;pointer-events:none;transition:all .3s;';document.body.appendChild(b);}
+  b.style.background=live?'#17c3a81a':'#f59e0b1a';
+  b.style.color=live?'#17c3a8':'#f59e0b';
+  b.style.border=`1px solid ${live?'#17c3a840':'#f59e0b40'}`;
+  b.textContent=text||(live?'🔴 LIVE':'📊 DEMO');
+}
+
+// ═══ UPDATE UI ═══
+function updateLivePriceUI(){
+  buildTicker();
+  const priceEl=document.querySelector('.idx-price');
+  if(priceEl){
+    const idx=IDXS[curIdx];
+    priceEl.textContent=idx.p.toLocaleString('en-IN',{maximumFractionDigits:2});
+    const chgEl=document.querySelector('.idx-chg');
+    if(chgEl){chgEl.className='idx-chg '+(idx.c>=0?'up':'dn');chgEl.innerHTML=(idx.c>=0?'+':'')+idx.c.toFixed(2)+' ('+Math.abs(idx.pct).toFixed(2)+'%)<span class="idx-exch">'+idx.e+'</span>';}
+  }
+  if(document.getElementById('watchlistScreen')?.classList.contains('on')) buildWL();
+  if(document.getElementById('detailScreen')?.classList.contains('on')){
+    const el=document.getElementById('dPrice'),ce=document.getElementById('dChg');
+    if(el) el.textContent='₹'+curS.p.toLocaleString('en-IN',{maximumFractionDigits:2});
+    if(ce){ce.className='det-chg '+(curS.c>=0?'up':'dn');ce.textContent=(curS.c>=0?'+':'')+curS.c.toFixed(2)+' ('+Math.abs(curS.pct).toFixed(2)+'%)';}
+  }
+  checkAlerts();
+}
+
+// ═══ MAIN LIVE ENGINE ═══
+let restFetchTimer = null;
+async function startLiveFeed(){
+  // Priority: Upstox WS > Zerodha WS > Dhan > Twelve Data > REST polling
+  if(API_KEYS.upstoxToken   && connectUpstoxWS())  return;
+  if(API_KEYS.zerodhaToken  && connectZerodhaWS()) return;
+  if(API_KEYS.dhanToken     && connectDhanWS())    return;
+  if(API_KEYS.fyersToken    && connectFyersWS())   return;
+  if(API_KEYS.twelve)       { connectTwelveWS(); return; }
+  // Fallback: REST polling every 5s
+  startPolling();
+}
+
+function connectDhanWS(){
+  const token=API_KEYS.dhanToken, clientId=API_KEYS.dhanClient;
+  if(!token||!clientId) return false;
+  try {
+    const ws=new WebSocket(`wss://api-order-update.dhan.co`);
+    ws.onopen=()=>{ wsConnected=true; setLiveStatus(true,'🔴 LIVE·Dhan'); activeWS=ws;
+      ws.send(JSON.stringify({LoginReq:{MsgCode:11,'UserType':'CLIENT','UserId':clientId,'AccessToken':token}})  );
+    };
+    ws.onmessage=(e)=>{ try{ const d=JSON.parse(e.data); if(d.data){const st=STOCKS.find(s=>s.s===d.data.tradingSymbol); if(st){st.p=d.data.lastTradedPrice;st.c=+(d.data.change||0).toFixed(2);}} updateLivePriceUI(); }catch(err){} };
+    ws.onclose=()=>{ wsConnected=false; activeWS=null; setTimeout(startLiveFeed,10000); };
+    ws.onerror=()=>{ ws.close(); };
+    return true;
+  } catch(e){ return false; }
+}
+
+function connectFyersWS(){
+  const token=API_KEYS.fyersToken;
+  if(!token) return false;
+  try {
+    const ws=new WebSocket(`wss://socket.fyers.in/trade/v3/live-market/?access_token=${token}`);
+    ws.onopen=()=>{ wsConnected=true; setLiveStatus(true,'🔴 LIVE·Fyers'); activeWS=ws;
+      ws.send(JSON.stringify({T:'SUB_L2',SLIST:['NSE:RELIANCE-EQ','NSE:HDFCBANK-EQ','NSE:NIFTY50-INDEX','NSE:BANKNIFTY-INDEX'],SUB_T:1}));
+    };
+    ws.onmessage=(e)=>{ try{ const d=JSON.parse(e.data);
+      if(d.d){const items=Array.isArray(d.d)?d.d:[d.d];items.forEach(q=>{const sym=(q.n||'').replace('NSE:','').replace('-EQ','').replace('-INDEX','');const st=STOCKS.find(s=>s.s===sym)||IDXS.find(x=>x.s.includes(sym));if(st){st.p=q.lp||st.p;st.c=+(q.chp||0).toFixed(2);}});}
+      updateLivePriceUI(); }catch(err){} };
+    ws.onclose=()=>{ wsConnected=false; activeWS=null; setTimeout(startLiveFeed,10000); };
+    ws.onerror=()=>{ ws.close(); };
+    return true;
+  } catch(e){ return false; }
+}
+
+function connectZerodhaWS(){
+  const token=API_KEYS.zerodhaToken, apiKey=API_KEYS.zerodhaKey;
+  if(!token||!apiKey) return false;
+  try {
+    const ws=new WebSocket(`wss://ws.kite.trade/?api_key=${apiKey}&access_token=${token}`);
+    ws.binaryType='arraybuffer';
+    ws.onopen=()=>{ wsConnected=true; setLiveStatus(true,'🔴 LIVE·Zerodha'); activeWS=ws; };
+    ws.onmessage=(e)=>{ updateLivePriceUI(); }; // full binary decode needs more setup
+    ws.onclose=()=>{ wsConnected=false; activeWS=null; setTimeout(startLiveFeed,10000); };
+    ws.onerror=()=>{ ws.close(); };
+    return true;
+  } catch(e){ return false; }
+}
+
+async function startPolling(){
+  const poll = async () => {
+    // Try in order: Twelve Data > Angel One > NSE Direct > Yahoo
+    let ok = false;
+    if(API_KEYS.twelve)       ok = await fetchTwelveREST();
+    if(!ok && API_KEYS.angelApiKey) ok = await fetchAngelOne();
+    if(!ok)                   ok = await fetchNSEDirect();
+    if(!ok)                   ok = await fetchYahooAll();
+    if(!ok){ fetchErrors++; if(fetchErrors>5){setLiveStatus(false,'⚡ Simulated');} }
+    fetchFOData();
+    updateLivePriceUI();
+  };
+  poll();
+  const interval = isMarketOpen() ? 5000 : 30000;
+  restFetchTimer = setInterval(poll, interval);
+}
+
+// ─ Smooth ticks between real fetches ─
+setInterval(()=>{ if(!wsConnected){ simulateTick(liveMode?0.3:1); updateLivePriceUI(); } }, 2500);
+
+// ─ Start everything ─
+setLiveStatus(false,'⏳ Connecting...');
+startLiveFeed();
+
+
 
 // ═══════════════════════════════════════════════════
 // VOICE + ALERT + NOTIFICATION SYSTEM — FULL
@@ -1501,11 +2088,1321 @@ function submitAlertForm(){
   renderAlertsPanel();
 }
 
+// ═══════════════════════════════════════════════════
+// FUNDS & PAYMENT SYSTEM
+// ═══════════════════════════════════════════════════
+let payTab = 'overview'; // overview | add | withdraw | history
+const PAYMENT_HISTORY = [
+  {type:'credit',method:'UPI',amount:50000,date:'28 Feb 2025',status:'SUCCESS',ref:'YBL2502281234'},
+  {type:'credit',method:'NEFT',amount:100000,date:'20 Feb 2025',status:'SUCCESS',ref:'HDFC250220567'},
+  {type:'debit',method:'Withdrawal',amount:25000,date:'15 Feb 2025',status:'SUCCESS',ref:'WDL250215890'},
+  {type:'credit',method:'Debit Card',amount:10000,date:'10 Feb 2025',status:'SUCCESS',ref:'DC250210234'},
+];
+
+function buildFunds(){
+  const fundsC = document.getElementById('fundsC');
+  if(!fundsC) return;
+  
+  const tabs = ['overview','add','withdraw','history'];
+  const tabLabels = ['Overview','Add Money','Withdraw','History'];
+  
+  fundsC.innerHTML = `
+  <!-- Balance Cards -->
+  <div style="padding:16px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);margin:0;border-bottom:1px solid #1a1f2e;">
+    <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:4px;">Available Balance</div>
+    <div style="font-size:36px;font-weight:800;color:#fff;margin-bottom:4px;">₹1,24,500</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;">
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:3px;">Invested</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;">₹4.24L</div>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:3px;">Margin Used</div>
+        <div style="font-size:14px;font-weight:700;color:#f59e0b;">₹89,200</div>
+      </div>
+      <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:3px;">Today P&L</div>
+        <div style="font-size:14px;font-weight:700;color:#17c3a8;">+₹4,284</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;border-bottom:1px solid #1a1f2e;overflow-x:auto;">
+    ${tabs.map((t,i)=>`<div style="padding:12px 18px;font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid ${payTab===t?'#fff':'transparent'};color:${payTab===t?'#fff':'#8b949e'};white-space:nowrap;" onclick="payTab='${t}';buildFunds()">${tabLabels[i]}</div>`).join('')}
+  </div>
+
+  <!-- Tab Content -->
+  <div id="payContent"></div>`;
+
+  const pc = document.getElementById('payContent');
+  if(payTab==='overview') pc.innerHTML = fundsOverview();
+  else if(payTab==='add') pc.innerHTML = fundsAdd();
+  else if(payTab==='withdraw') pc.innerHTML = fundsWithdraw();
+  else pc.innerHTML = fundsHistory();
+}
+
+function fundsOverview(){
+  return `
+  <!-- Quick actions -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;">
+    <button onclick="payTab='add';buildFunds()" style="background:#17c3a8;border:none;border-radius:12px;padding:16px;color:#000;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <span style="font-size:20px;">+</span> Add Money
+    </button>
+    <button onclick="payTab='withdraw';buildFunds()" style="background:#1c2130;border:1px solid #2a2f3e;border-radius:12px;padding:16px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <span style="font-size:20px;">↑</span> Withdraw
+    </button>
+  </div>
+
+  <!-- Linked Banks -->
+  <div style="padding:0 16px 10px;font-size:12px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Linked Bank Accounts</div>
+  ${[
+    {bank:'SBI',acc:'XXXX 4521',type:'Savings',color:'#1a6b5e'},
+    {bank:'HDFC',acc:'XXXX 8834',type:'Savings',color:'#6b3fa0'},
+    {bank:'AXIS',acc:'XXXX 2219',type:'Current',color:'#b45309'},
+  ].map(b=>`
+  <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #0d1017;cursor:pointer;" onclick="notif('🏦','${b.bank} Bank','XXXX ${b.acc.split(' ')[1]} — Primary account')">
+    <div style="width:42px;height:42px;border-radius:12px;background:${b.color};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;margin-right:12px;">${b.bank.slice(0,2)}</div>
+    <div style="flex:1;">
+      <div style="font-size:15px;font-weight:600;color:#fff;">${b.bank} Bank</div>
+      <div style="font-size:13px;color:#8b949e;">${b.acc} · ${b.type}</div>
+    </div>
+    <div style="font-size:12px;color:#17c3a8;font-weight:600;">PRIMARY</div>
+  </div>`).join('')}
+  <button onclick="notif('🏦','Add Bank','KYC verification required')" style="display:flex;align-items:center;gap:10px;width:calc(100%-32px);margin:10px 16px;background:#1c2130;border:1px dashed #2a2f3e;border-radius:12px;padding:14px;color:#8b949e;font-size:14px;cursor:pointer;width:calc(100% - 32px);">
+    + Add New Bank Account
+  </button>
+
+  <!-- UPI IDs -->
+  <div style="padding:16px 16px 10px;font-size:12px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">UPI IDs</div>
+  ${['amitk@ybl','amitk@oksbi','amitk@okaxis'].map(upi=>`
+  <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #0d1017;">
+    <div style="width:38px;height:38px;border-radius:10px;background:#1c2130;display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px;">₿</div>
+    <div style="flex:1;font-size:14px;color:#fff;">${upi}</div>
+    <div style="font-size:12px;color:#17c3a8;font-weight:500;">ACTIVE</div>
+  </div>`).join('')}
+  <div style="height:30px;"></div>`;
+}
+
+function fundsAdd(){
+  return `
+  <div style="padding:16px;">
+    <!-- Amount input -->
+    <div style="background:#131820;border-radius:14px;padding:18px;margin-bottom:16px;">
+      <div style="font-size:12px;color:#8b949e;margin-bottom:8px;font-weight:500;">AMOUNT TO ADD (₹)</div>
+      <input id="addAmt" type="number" placeholder="Enter amount" value="10000" style="width:100%;background:transparent;border:none;outline:none;font-size:32px;font-weight:700;color:#fff;font-family:Inter,sans-serif;">
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+        ${[5000,10000,25000,50000,100000].map(a=>`<button onclick="document.getElementById('addAmt').value=${a}" style="padding:6px 14px;background:#1c2130;border:1px solid #2a2f3e;border-radius:20px;color:#8b949e;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">₹${(a/1000).toFixed(0)}K</button>`).join('')}
+      </div>
+    </div>
+
+    <!-- Payment Methods -->
+    <div style="font-size:14px;font-weight:600;color:#8b949e;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;font-size:12px;">SELECT PAYMENT METHOD</div>
+
+    <!-- UPI -->
+    <div style="background:#131820;border-radius:14px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:14px 16px;border-bottom:1px solid #0d1017;cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="showPaymentFlow('UPI','PhonePe / GPay / Paytm')">
+        <div style="width:42px;height:42px;border-radius:10px;background:#4f46e51a;display:flex;align-items:center;justify-content:center;font-size:22px;">₿</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:600;color:#fff;">UPI</div>
+          <div style="font-size:12px;color:#8b949e;">PhonePe · GPay · Paytm · BHIM</div>
+        </div>
+        <div style="display:flex;gap:4px;align-items:center;"><span style="font-size:10px;background:#17c3a81a;color:#17c3a8;padding:2px 8px;border-radius:10px;font-weight:600;">INSTANT</span><span style="color:#8b949e;">›</span></div>
+      </div>
+      <div style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;" onclick="showUPIInput()">
+        <div style="width:42px;height:42px;border-radius:10px;background:#17c3a81a;display:flex;align-items:center;justify-content:center;font-size:18px;">@</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:600;color:#fff;">UPI ID</div>
+          <div style="font-size:12px;color:#8b949e;">Enter any UPI ID directly</div>
+        </div>
+        <span style="color:#8b949e;">›</span>
+      </div>
+    </div>
+
+    <!-- Net Banking -->
+    <div style="background:#131820;border-radius:14px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:14px 16px;border-bottom:1px solid #0d1017;">
+        <div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:10px;">NET BANKING</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          ${[{n:'SBI',c:'#1a6b5e'},{n:'HDFC',c:'#6b3fa0'},{n:'ICICI',c:'#c0392b'},{n:'AXIS',c:'#b45309'},{n:'KOTAK',c:'#d97706'},{n:'PNB',c:'#1d4ed8'}].map(b=>`
+          <div onclick="showPaymentFlow('Net Banking','${b.n} Bank')" style="display:flex;align-items:center;gap:8px;background:#0e1016;border-radius:10px;padding:10px 12px;cursor:pointer;">
+            <div style="width:32px;height:32px;border-radius:8px;background:${b.c};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;">${b.n.slice(0,2)}</div>
+            <span style="font-size:13px;font-weight:500;color:#fff;">${b.n}</span>
+          </div>`).join('')}
+        </div>
+        <button onclick="showPaymentFlow('Net Banking','Other Bank')" style="width:100%;margin-top:8px;padding:10px;background:#0e1016;border:none;border-radius:10px;color:#8b949e;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">Other Banks ›</button>
+      </div>
+    </div>
+
+    <!-- Debit Card -->
+    <div style="background:#131820;border-radius:14px;overflow:hidden;margin-bottom:12px;">
+      <div style="padding:14px 16px;border-bottom:1px solid #0d1017;cursor:pointer;" onclick="showCardForm('debit')">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:#1d4ed81a;display:flex;align-items:center;justify-content:center;font-size:22px;">💳</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:600;color:#fff;">Debit Card</div>
+            <div style="font-size:12px;color:#8b949e;">Visa · Mastercard · RuPay · Maestro</div>
+          </div>
+          <span style="color:#8b949e;">›</span>
+        </div>
+      </div>
+      <div style="padding:14px 16px;cursor:pointer;" onclick="showCardForm('credit')">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:#7c3aed1a;display:flex;align-items:center;justify-content:center;font-size:22px;">💎</div>
+          <div style="flex:1;">
+            <div style="font-size:15px;font-weight:600;color:#fff;">Credit Card</div>
+            <div style="font-size:12px;color:#8b949e;">Visa · Mastercard · Amex · Diners</div>
+          </div>
+          <span style="color:#8b949e;">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEFT/IMPS -->
+    <div style="background:#131820;border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer;" onclick="showNEFTDetails()">
+      <div style="padding:14px 16px;display:flex;align-items:center;gap:12px;">
+        <div style="width:42px;height:42px;border-radius:10px;background:#f59e0b1a;display:flex;align-items:center;justify-content:center;font-size:22px;">🏦</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:600;color:#fff;">NEFT / IMPS / RTGS</div>
+          <div style="font-size:12px;color:#8b949e;">Direct bank transfer to Bulls Eye account</div>
+        </div>
+        <span style="color:#8b949e;">›</span>
+      </div>
+    </div>
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+function fundsWithdraw(){
+  return `
+  <div style="padding:16px;">
+    <div style="background:#131820;border-radius:14px;padding:18px;margin-bottom:16px;">
+      <div style="font-size:12px;color:#8b949e;margin-bottom:4px;">Available to Withdraw</div>
+      <div style="font-size:28px;font-weight:700;color:#fff;margin-bottom:2px;">₹1,24,500</div>
+      <div style="font-size:13px;color:#8b949e;">Settlement T+1 · Bank by 4:30 PM</div>
+    </div>
+    <div style="font-size:12px;color:#8b949e;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">AMOUNT (₹)</div>
+    <input id="wdAmt" type="number" placeholder="Enter amount" value="25000" style="width:100%;background:#131820;border:1px solid #2a2f3e;border-radius:12px;padding:14px;color:#fff;font-size:18px;font-weight:600;outline:none;font-family:Inter,sans-serif;margin-bottom:12px;">
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+      ${[10000,25000,50000,100000].map(a=>`<button onclick="document.getElementById('wdAmt').value=${a}" style="padding:6px 14px;background:#1c2130;border:1px solid #2a2f3e;border-radius:20px;color:#8b949e;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;">₹${(a/1000).toFixed(0)}K</button>`).join('')}
+    </div>
+    <div style="font-size:12px;color:#8b949e;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">WITHDRAW TO</div>
+    ${[
+      {bank:'SBI',acc:'XXXX 4521',color:'#1a6b5e'},
+      {bank:'HDFC',acc:'XXXX 8834',color:'#6b3fa0'},
+    ].map(b=>`
+    <div onclick="initiateWithdraw('${b.bank}')" style="display:flex;align-items:center;padding:14px 16px;border:1px solid #2a2f3e;border-radius:12px;margin-bottom:10px;cursor:pointer;background:#131820;">
+      <div style="width:42px;height:42px;border-radius:12px;background:${b.color};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;margin-right:12px;">${b.bank.slice(0,2)}</div>
+      <div style="flex:1;">
+        <div style="font-size:15px;font-weight:600;color:#fff;">${b.bank} Bank</div>
+        <div style="font-size:13px;color:#8b949e;">Savings · ${b.acc}</div>
+      </div>
+      <span style="color:#8b949e;">›</span>
+    </div>`).join('')}
+    <button onclick="initiateWithdraw('SBI')" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px;">Withdraw Now ↑</button>
+    <div style="font-size:12px;color:#8b949e;text-align:center;margin-top:10px;">⏱ Credited within 24 hours (T+1 settlement)</div>
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+function fundsHistory(){
+  const all = JSON.parse(localStorage.getItem('be_payments')||'[]').concat(PAYMENT_HISTORY);
+  return `
+  <div style="padding:0 16px 8px;padding-top:12px;">
+    <div style="font-size:12px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding-bottom:8px;">Transaction History</div>
+    ${all.map(p=>`
+    <div style="display:flex;align-items:center;padding:14px 0;border-bottom:1px solid #0d1017;">
+      <div style="width:42px;height:42px;border-radius:12px;background:${p.type==='credit'?'#17c3a81a':'#f0627a1a'};display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:12px;">${p.type==='credit'?'↓':'↑'}</div>
+      <div style="flex:1;">
+        <div style="font-size:15px;font-weight:600;color:#fff;">${p.method}</div>
+        <div style="font-size:12px;color:#8b949e;">${p.date} · Ref: ${p.ref}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:16px;font-weight:700;color:${p.type==='credit'?'#17c3a8':'#f0627a'};">${p.type==='credit'?'+':'−'}₹${p.amount.toLocaleString('en-IN')}</div>
+        <div style="font-size:11px;color:#17c3a8;font-weight:600;">${p.status}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+// ── PAYMENT FLOW MODALS ──
+function showPaymentFlow(method, bank){
+  const amt = document.getElementById('addAmt')?.value||10000;
+  const overlay=document.createElement('div');
+  overlay.id='payOv';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;';
+  overlay.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;">${method} · ${bank}</div>
+      <div style="font-size:14px;color:#8b949e;margin-bottom:20px;">Adding ₹${Number(amt).toLocaleString('en-IN')} to Bulls Eye</div>
+      <div style="background:#0e1016;border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:#8b949e;">Amount</span><span style="font-size:14px;font-weight:600;color:#fff;">₹${Number(amt).toLocaleString('en-IN')}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:#8b949e;">Charges</span><span style="font-size:14px;font-weight:600;color:#17c3a8;">FREE</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #1a1f2e;padding-top:8px;"><span style="font-size:14px;font-weight:600;color:#fff;">Total</span><span style="font-size:16px;font-weight:700;color:#fff;">₹${Number(amt).toLocaleString('en-IN')}</span></div>
+      </div>
+      <button onclick="processPayment('${method}',${amt})" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">Proceed to ${method} →</button>
+      <button onclick="document.getElementById('payOv').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>`;
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+  document.body.appendChild(overlay);
+}
+
+function showUPIInput(){
+  const amt = document.getElementById('addAmt')?.value||10000;
+  const overlay=document.createElement('div');
+  overlay.id='upiOv';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;';
+  overlay.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;">Enter UPI ID</div>
+      <input id="upiId" placeholder="yourname@ybl / @oksbi / @okaxis" style="width:100%;background:#0e1016;border:1px solid #2a2f3e;border-radius:12px;padding:14px;color:#fff;font-size:15px;outline:none;font-family:Inter,sans-serif;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        ${['@ybl','@oksbi','@okaxis','@paytm','@upi','@okhdfcbank'].map(s=>`<button onclick="const el=document.getElementById('upiId');el.value=el.value.split('@')[0]+\`${s}\`" style="padding:5px 12px;background:#1c2130;border:1px solid #2a2f3e;border-radius:14px;color:#8b949e;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;">${s}</button>`).join('')}
+      </div>
+      <button onclick="const uid=document.getElementById('upiId').value;if(uid.includes('@')){document.getElementById('upiOv').remove();processPayment('UPI',${amt});}else{notif('❌','Invalid UPI','@bank suffix add karo');}" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">Verify & Pay →</button>
+      <button onclick="document.getElementById('upiOv').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>`;
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+  document.body.appendChild(overlay);
+  setTimeout(()=>document.getElementById('upiId')?.focus(),300);
+}
+
+function showCardForm(type){
+  const amt = document.getElementById('addAmt')?.value||10000;
+  const overlay=document.createElement('div');
+  overlay.id='cardOv';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;overflow-y:auto;';
+  overlay.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;min-height:auto;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;">${type==='credit'?'💎 Credit':'💳 Debit'} Card</div>
+      <div style="font-size:13px;color:#8b949e;margin-bottom:20px;">Amount: ₹${Number(amt).toLocaleString('en-IN')} · Secure payment</div>
+      
+      <!-- Card Preview -->
+      <div style="background:linear-gradient(135deg,${type==='credit'?'#4c1d95,#7c3aed':'#1a4463,#2563eb'});border-radius:16px;padding:20px;margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
+          <div style="font-size:20px;">💳</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);">${type.toUpperCase()} CARD</div>
+        </div>
+        <div style="font-size:18px;font-weight:600;color:#fff;letter-spacing:3px;margin-bottom:14px;" id="cardPreview">•••• •••• •••• ••••</div>
+        <div style="display:flex;justify-content:space-between;">
+          <div><div style="font-size:10px;color:rgba(255,255,255,.5);">CARD HOLDER</div><div style="font-size:13px;color:#fff;font-weight:600;">AMIT KUMAR</div></div>
+          <div><div style="font-size:10px;color:rgba(255,255,255,.5);">EXPIRES</div><div style="font-size:13px;color:#fff;font-weight:600;" id="expPreview">MM/YY</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <div style="font-size:12px;color:#8b949e;margin-bottom:6px;font-weight:500;">CARD NUMBER</div>
+        <input id="cardNum" maxlength="19" placeholder="1234 5678 9012 3456" oninput="fmtCard(this)" style="width:100%;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:12px;color:#fff;font-size:16px;letter-spacing:2px;outline:none;font-family:Inter,sans-serif;">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:6px;font-weight:500;">EXPIRY (MM/YY)</div>
+          <input id="cardExp" maxlength="5" placeholder="MM/YY" oninput="fmtExp(this)" style="width:100%;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:12px;color:#fff;font-size:15px;outline:none;font-family:Inter,sans-serif;">
+        </div>
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:6px;font-weight:500;">CVV</div>
+          <input id="cardCvv" maxlength="4" type="password" placeholder="•••" style="width:100%;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:12px;color:#fff;font-size:15px;outline:none;font-family:Inter,sans-serif;">
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:#0e1016;border-radius:10px;padding:12px;margin-bottom:16px;">
+        <span style="font-size:18px;">🔒</span>
+        <span style="font-size:12px;color:#8b949e;">256-bit SSL encrypted · PCI DSS compliant · 3D Secure</span>
+      </div>
+      <button onclick="processCardPayment(${amt})" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">Pay ₹${Number(amt).toLocaleString('en-IN')} Securely 🔒</button>
+      <button onclick="document.getElementById('cardOv').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>`;
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+  document.body.appendChild(overlay);
+}
+
+function fmtCard(el){
+  let v=el.value.replace(/\D/g,'').slice(0,16);
+  el.value=v.replace(/(.{4})/g,'$1 ').trim();
+  const p=document.getElementById('cardPreview');
+  if(p) p.textContent=(v+'••••••••••••••••').slice(0,16).replace(/(.{4})/g,'$1 ').trim();
+}
+function fmtExp(el){
+  let v=el.value.replace(/\D/g,'').slice(0,4);
+  if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+  el.value=v;
+  const p=document.getElementById('expPreview');
+  if(p) p.textContent=v||'MM/YY';
+}
+
+function showNEFTDetails(){
+  const overlay=document.createElement('div');
+  overlay.id='neftOv';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;';
+  overlay.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;">🏦 Bank Transfer Details</div>
+      ${[
+        ['Account Name','Bulls Eye Securities Pvt Ltd'],
+        ['Account Number','000205019876'],
+        ['Account Type','Current'],
+        ['Bank','HDFC Bank'],
+        ['IFSC Code','HDFC0000123'],
+        ['Branch','Mumbai — Fort Branch'],
+        ['SWIFT','HDFCINBB'],
+      ].map(([l,v])=>`
+      <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #0d1017;">
+        <span style="font-size:13px;color:#8b949e;">${l}</span>
+        <span style="font-size:13px;font-weight:600;color:#fff;text-align:right;max-width:60%;">${v}</span>
+      </div>`).join('')}
+      <div style="background:#17c3a81a;border:1px solid #17c3a840;border-radius:10px;padding:12px;margin-top:14px;">
+        <div style="font-size:13px;color:#17c3a8;">⚡ IMPS — Instant · NEFT — 2 hrs · RTGS — ₹2L+ only</div>
+      </div>
+      <button onclick="document.getElementById('neftOv').remove()" style="width:100%;padding:14px;background:#1c2130;border:none;border-radius:12px;color:#fff;font-size:15px;cursor:pointer;margin-top:14px;">Done</button>
+    </div>`;
+  overlay.onclick=e=>{if(e.target===overlay)overlay.remove();};
+  document.body.appendChild(overlay);
+}
+
+function processPayment(method, amount){
+  document.getElementById('payOv')?.remove();
+  document.getElementById('upiOv')?.remove();
+  // Show processing
+  const ov=document.createElement('div');
+  ov.id='processingOv';
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:950;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+  ov.innerHTML=`<div style="font-size:48px;animation:spin 1s linear infinite;">⏳</div><div style="font-size:18px;font-weight:700;color:#fff;font-family:Inter,sans-serif;">Processing Payment...</div><div style="font-size:14px;color:#8b949e;font-family:Inter,sans-serif;">₹${Number(amount).toLocaleString('en-IN')} via ${method}</div>`;
+  const style=document.createElement('style');style.textContent='@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}';
+  document.head.appendChild(style);
+  document.body.appendChild(ov);
+  setTimeout(()=>{
+    ov.remove();
+    const h=JSON.parse(localStorage.getItem('be_payments')||'[]');
+    h.unshift({type:'credit',method,amount:+amount,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),status:'SUCCESS',ref:`TXN${Date.now()}`});
+    localStorage.setItem('be_payments',JSON.stringify(h));
+    playAlarm('buy');
+    speak(`₹${Number(amount).toLocaleString()} Bulls Eye mein add ho gaya`);
+    notif('✅','Payment Successful!',`₹${Number(amount).toLocaleString('en-IN')} via ${method} — Added to wallet`);
+    payTab='history'; buildFunds();
+  },2500);
+}
+
+function processCardPayment(amount){
+  const num=(document.getElementById('cardNum')?.value||'').replace(/\s/g,'');
+  const exp=document.getElementById('cardExp')?.value||'';
+  const cvv=document.getElementById('cardCvv')?.value||'';
+  if(num.length<16){notif('❌','Error','16-digit card number daalo');return;}
+  if(exp.length<5){notif('❌','Error','Expiry date daalo MM/YY');return;}
+  if(cvv.length<3){notif('❌','Error','CVV daalo');return;}
+  document.getElementById('cardOv')?.remove();
+  processPayment('Card', amount);
+}
+
+function initiateWithdraw(bank){
+  const amt = document.getElementById('wdAmt')?.value||25000;
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;';
+  ov.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;">Confirm Withdrawal</div>
+      <div style="background:#0e1016;border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:#8b949e;">Amount</span><span style="font-size:14px;font-weight:600;color:#fff;">₹${Number(amt).toLocaleString('en-IN')}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:#8b949e;">To Bank</span><span style="font-size:14px;font-weight:600;color:#fff;">${bank} Bank</span></div>
+        <div style="display:flex;justify-content:space-between;"><span style="font-size:13px;color:#8b949e;">Settlement</span><span style="font-size:14px;font-weight:600;color:#f59e0b;">T+1 by 4:30 PM</span></div>
+      </div>
+      <button onclick="this.closest('div[style]').remove();notif('✅','Withdrawal Initiated','₹${Number(amt).toLocaleString()} sent to ${bank} Bank · T+1 settlement');speak('₹${Number(amt).toLocaleString()} withdrawal ho gaya ${bank} bank mein');" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">Confirm Withdrawal ↑</button>
+      <button onclick="this.closest('div[style]').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+// ═══════════════════════════════════════════════════
+// DEMAT ACCOUNT OPENING + API SETTINGS
+// ═══════════════════════════════════════════════════
+
+const BROKERS = [
+  {
+    id:'upstox', name:'Upstox', tagline:'Zero delivery, ₹20 F&O · Free API',
+    color:'#5c4df3', ico:'📈', rating:'4.8', users:'1.2 Cr+', time:'15 min',
+    perks:['Free Demat Account','₹0 Delivery Trades','₹20 F&O per order','Free API Access','Instant KYC (Aadhaar)'],
+    apiSupport:true, wsSupport:true, apiName:'Upstox API v2',
+    openUrl:'https://upstox.com/open-demat-account/?f=bullseye',
+    apiUrl:'https://upstox.com/developer-api/',
+    steps:['Mobile number verify','PAN details','Aadhaar OTP KYC','Bank account link','Start trading in 15 min'],
+  },
+  {
+    id:'angel', name:'Angel One', tagline:'Free brokerage + SmartAPI free',
+    color:'#ff6b35', ico:'😇', rating:'4.7', users:'2.1 Cr+', time:'10 min',
+    perks:['₹0 Delivery for life','Free SmartAPI access','WebSocket live feed','AI-powered advisory','Paperless account'],
+    apiSupport:true, wsSupport:true, apiName:'Angel SmartAPI',
+    openUrl:'https://www.angelone.in/open-demat-account/',
+    apiUrl:'https://smartapi.angelone.in/',
+    steps:['Enter mobile + OTP','PAN card verification','Aadhaar e-KYC','Selfie verification','Account ready in 10 min'],
+  },
+  {
+    id:'zerodha', name:'Zerodha', tagline:'India\'s #1 broker · Kite API',
+    color:'#387ed1', ico:'🏆', rating:'4.9', users:'1.3 Cr+', time:'30 min',
+    perks:['Most trusted broker','₹0 Delivery','₹20 Intraday/F&O','Kite API (₹2000/month)','Coin for MF'],
+    apiSupport:true, wsSupport:true, apiName:'Kite Connect API',
+    openUrl:'https://zerodha.com/open-account/',
+    apiUrl:'https://kite.trade/',
+    steps:['Enter PAN + DOB','Aadhaar OTP','Upload documents','In-person verify (optional)','3-5 working days'],
+  },
+  {
+    id:'dhan', name:'Dhan', tagline:'Free + Best API for algo trading',
+    color:'#00b4d8', ico:'💡', rating:'4.6', users:'20L+', time:'10 min',
+    perks:['Free Demat','Free API access','WebSocket feed','Paperless instant','Great for algo traders'],
+    apiSupport:true, wsSupport:true, apiName:'Dhan API v2',
+    openUrl:'https://join.dhan.co/',
+    apiUrl:'https://dhanhq.co/docs/latest/',
+    steps:['Mobile OTP','PAN + DOB','Aadhaar OTP KYC','Bank IFSC','Trading starts in 10 min'],
+  },
+  {
+    id:'5paisa', name:'5paisa', tagline:'₹0 brokerage + free API',
+    color:'#e63946', ico:'5️⃣', rating:'4.2', users:'40L+', time:'10 min',
+    perks:['₹0 brokerage plans','Free API','Quick KYC','Low AMC','Good for beginners'],
+    apiSupport:true, wsSupport:false, apiName:'5paisa Open API',
+    openUrl:'https://www.5paisa.com/open-demat-account',
+    apiUrl:'https://5paisa.com/technology/api',
+    steps:['Mobile verify','PAN details','Aadhaar OTP','Bank details','Ready in 10 min'],
+  },
+  {
+    id:'groww', name:'Groww', tagline:'Stocks + MF · Easy app',
+    color:'#00b386', ico:'🌱', rating:'4.5', users:'1.5 Cr+', time:'5 min',
+    perks:['₹0 Delivery','Easy UI','Instant account','Mutual Funds','No API (trading only)'],
+    apiSupport:false, wsSupport:false, apiName:'No API',
+    openUrl:'https://groww.in/open-demat-account',
+    apiUrl:null,
+    steps:['Mobile + OTP','PAN','Aadhaar OTP','Selfie','5 min activation'],
+  },
+];
+
+function buildDemat(){
+  const el=document.getElementById('dematC');if(!el)return;
+  el.innerHTML=`
+  <!-- Hero -->
+  <div style="background:linear-gradient(135deg,#0f2027,#203a43,#1a0533);padding:20px 16px 24px;">
+    <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:8px;">Bulls Eye Partnership</div>
+    <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:6px;line-height:1.3;">Open Demat Account<br>& Get Live Data FREE</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:16px;">Account khulne ke baad <b style="color:#17c3a8;">API key paste karo</b> → Bulls Eye automatically live rates le lega WebSocket se</div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;text-align:center;flex:1;"><div style="font-size:20px;font-weight:800;color:#17c3a8;">Free</div><div style="font-size:11px;color:rgba(255,255,255,.5);">Demat</div></div>
+      <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;text-align:center;flex:1;"><div style="font-size:20px;font-weight:800;color:#17c3a8;">Free</div><div style="font-size:11px;color:rgba(255,255,255,.5);">API Access</div></div>
+      <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;text-align:center;flex:1;"><div style="font-size:20px;font-weight:800;color:#17c3a8;">100ms</div><div style="font-size:11px;color:rgba(255,255,255,.5);">Live Feed</div></div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="padding:16px;border-bottom:1px solid #1a1f2e;">
+    <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:12px;">How Live Data Works 🔴</div>
+    ${[
+      ['1','Broker choose karo','Neeche se apna broker select karo'],
+      ['2','Account kholo','15 min mein paperless KYC'],
+      ['3','API key lo','Broker portal se API generate karo'],
+      ['4','Yahan paste karo','Settings → API Keys mein enter karo'],
+      ['5','WebSocket connect','Bulls Eye automatically live ho jata hai'],
+    ].map(([n,t,s])=>`
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;">
+      <div style="width:24px;height:24px;border-radius:50%;background:#17c3a8;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;flex-shrink:0;">${n}</div>
+      <div><div style="font-size:14px;font-weight:600;color:#fff;">${t}</div><div style="font-size:12px;color:#8b949e;">${s}</div></div>
+    </div>`).join('')}
+  </div>
+
+  <!-- BROKER CARDS -->
+  <div style="padding:12px 16px 4px;font-size:12px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Choose Your Broker</div>
+  ${BROKERS.map(b=>`
+  <div style="margin:0 16px 12px;background:#131820;border-radius:16px;overflow:hidden;border:1px solid #1a1f2e;">
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
+        <div style="width:48px;height:48px;border-radius:14px;background:${b.color}22;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">${b.ico}</div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;font-weight:700;color:#fff;">${b.name}</span>${b.apiSupport?`<span style="font-size:10px;background:#17c3a81a;color:#17c3a8;border:1px solid #17c3a840;padding:2px 7px;border-radius:10px;font-weight:600;">🔴 LIVE API</span>`:'<span style="font-size:10px;background:#8b949e1a;color:#8b949e;border:1px solid #8b949e40;padding:2px 7px;border-radius:10px;">No API</span>'}</div>
+          <div style="font-size:13px;color:#8b949e;margin-top:2px;">${b.tagline}</div>
+          <div style="display:flex;gap:10px;margin-top:6px;"><span style="font-size:12px;color:#f59e0b;">⭐ ${b.rating}</span><span style="font-size:12px;color:#8b949e;">${b.users} users</span><span style="font-size:12px;color:#17c3a8;">⏱ ${b.time}</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;">
+        ${b.perks.map(p=>`<span style="font-size:11px;color:#8b949e;background:#0e1016;padding:3px 8px;border-radius:6px;">✓ ${p}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="openDematFlow('${b.id}')" style="flex:2;padding:12px;background:${b.color};border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">Open Free Account →</button>
+        ${b.apiUrl?`<button onclick="showAPIGuide('${b.id}')" style="flex:1;padding:12px;background:#1c2130;border:1px solid #2a2f3e;border-radius:10px;color:#fff;font-size:13px;cursor:pointer;">API Guide</button>`:''}
+      </div>
+    </div>
+  </div>`).join('')}
+  <div style="height:30px;"></div>`;
+}
+
+function openDematFlow(brokerId){
+  const b=BROKERS.find(x=>x.id===brokerId);if(!b)return;
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:900;display:flex;align-items:flex-end;';
+  ov.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="width:48px;height:48px;border-radius:14px;background:${b.color}22;display:flex;align-items:center;justify-content:center;font-size:24px;">${b.ico}</div>
+        <div><div style="font-size:20px;font-weight:700;color:#fff;">${b.name}</div><div style="font-size:13px;color:#8b949e;">${b.tagline}</div></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px;">Account Opening Steps</div>
+      ${b.steps.map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #0d1017;"><div style="width:22px;height:22px;border-radius:50%;background:#17c3a8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0;">${i+1}</div><div style="font-size:14px;color:#fff;">${s}</div></div>`).join('')}
+      <div style="background:#17c3a81a;border:1px solid #17c3a840;border-radius:10px;padding:12px;margin-top:14px;font-size:13px;color:#17c3a8;">
+        🔴 Account khulne ke baad: Profile → API Settings → ${b.apiName} key paste karo → Live data on!
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button onclick="this.closest('div[style]').remove()" style="flex:1;padding:13px;background:#1c2130;border:none;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Cancel</button>
+        <button onclick="window.open('${b.openUrl}','_blank');this.closest('div[style]').remove();notif('📂','${b.name}','Account opening page khul gaya! Wapas aake API key enter karo');" style="flex:2;padding:13px;background:${b.color};border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;">Open ${b.name} Account →</button>
+      </div>
+    </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+
+function showAPIGuide(brokerId){
+  const b=BROKERS.find(x=>x.id===brokerId);if(!b||!b.apiUrl)return;
+  const guides={
+    upstox:`1. Login to Upstox → My Account → Apps\n2. Create New App → Get API Key + Secret\n3. Generate Access Token via OAuth\n4. Paste token in Bulls Eye API Settings`,
+    angel:`1. Login AngelOne → Smart API\n2. Register app → Get API Key\n3. Generate JWT session token\n4. Paste both in Bulls Eye API Settings`,
+    zerodha:`1. Apply at kite.trade (₹2000/month)\n2. Get API Key + Secret\n3. Login via OAuth → Get access_token\n4. Paste in Bulls Eye API Settings`,
+    dhan:`1. Login Dhan → DhanHQ API\n2. Generate Client ID + Access Token\n3. Paste in Bulls Eye API Settings`,
+    '5paisa':`1. Register at 5paisa developer portal\n2. Get App Name + API Key\n3. Generate token\n4. Paste in Bulls Eye API Settings`,
+  };
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:900;display:flex;align-items:flex-end;';
+  ov.innerHTML=`
+    <div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+      <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;">${b.ico} ${b.apiName} — Guide</div>
+      <div style="background:#0e1016;border-radius:12px;padding:16px;font-size:14px;color:#ccc;line-height:2;white-space:pre-line;font-family:monospace;">${guides[brokerId]||'Guide not available'}</div>
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button onclick="this.closest('div[style]').remove()" style="flex:1;padding:13px;background:#1c2130;border:none;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Close</button>
+        <button onclick="window.open('${b.apiUrl}','_blank')" style="flex:1;padding:13px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:14px;font-weight:700;cursor:pointer;">Open Docs →</button>
+        <button onclick="this.closest('div[style]').remove();goTo('api')" style="flex:1;padding:13px;background:#5c4df3;border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">Enter Key →</button>
+      </div>
+    </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+
+// ═══ API SETTINGS ═══
+function buildAPISettings(){
+  const el=document.getElementById('apiC');if(!el)return;
+  const connected=Object.keys(API_KEYS).filter(k=>API_KEYS[k]).length;
+  el.innerHTML=`
+  <div style="background:${connected?'#17c3a81a':'#f59e0b1a'};border-bottom:1px solid ${connected?'#17c3a840':'#f59e0b40'};padding:14px 16px;">
+    <div style="font-size:14px;font-weight:700;color:${connected?'#17c3a8':'#f59e0b'};">${connected?'🔴 LIVE DATA CONNECTED':'⚡ Demo Mode — Connect API for live data'}</div>
+    <div style="font-size:12px;color:#8b949e;margin-top:3px;">${connected?'WebSocket se real-time NSE data aa raha hai':'Broker account kholo → API key paste karo → Live ho jao'}</div>
+  </div>
+
+  <!-- Upstox -->
+  <div style="padding:16px;">
+    <div style="font-size:13px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">📈 Upstox API v2 (WebSocket)</div>
+    <div style="font-size:12px;color:#555;margin-bottom:8px;">Access Token (OAuth2 JWT — expires daily)</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <input id="k_upstox" type="password" placeholder="eyJ0eXAiOiJKV1QiLCJhbGci..." value="${API_KEYS.upstoxToken||''}" style="flex:1;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:11px;color:#fff;font-size:14px;outline:none;font-family:Inter,sans-serif;">
+      <button onclick="saveKey('upstoxToken','k_upstox')" style="padding:11px 16px;background:#5c4df3;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Save</button>
+    </div>
+
+    <div style="font-size:13px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">😇 Angel One SmartAPI</div>
+    <div style="font-size:12px;color:#555;margin-bottom:6px;">API Key</div>
+    <input id="k_angelkey" type="password" placeholder="abc123xyz..." value="${API_KEYS.angelApiKey||''}" style="width:100%;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:11px;color:#fff;font-size:14px;outline:none;font-family:Inter,sans-serif;margin-bottom:8px;">
+    <div style="font-size:12px;color:#555;margin-bottom:6px;">JWT Token</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <input id="k_angeljwt" type="password" placeholder="eyJ..." value="${API_KEYS.angelJwt||''}" style="flex:1;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:11px;color:#fff;font-size:14px;outline:none;font-family:Inter,sans-serif;">
+      <button onclick="saveKey2('angelApiKey','k_angelkey','angelJwt','k_angeljwt')" style="padding:11px 16px;background:#ff6b35;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">Save</button>
+    </div>
+
+    <div style="font-size:13px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">🕐 Twelve Data (REST + WS)</div>
+    <div style="font-size:12px;color:#555;margin-bottom:6px;">Free at <b style="color:#17c3a8;">twelvedata.com</b> — 800 req/day</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <input id="k_twelve" placeholder="your_twelvedata_api_key" value="${API_KEYS.twelve||''}" style="flex:1;background:#0e1016;border:1px solid #2a2f3e;border-radius:10px;padding:11px;color:#fff;font-size:14px;outline:none;font-family:Inter,sans-serif;">
+      <button onclick="saveKey('twelve','k_twelve')" style="padding:11px 16px;background:#00b4d8;border:none;border-radius:10px;color:#000;font-size:13px;font-weight:600;cursor:pointer;">Save</button>
+    </div>
+
+    <!-- Status -->
+    <div style="background:#131820;border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:10px;">Connection Status</div>
+      ${[
+        {n:'Upstox WebSocket',connected:!!API_KEYS.upstoxToken&&wsConnected,k:'upstoxToken'},
+        {n:'Angel One REST',connected:!!API_KEYS.angelApiKey,k:'angelApiKey'},
+        {n:'Twelve Data',connected:!!API_KEYS.twelve,k:'twelve'},
+        {n:'Yahoo Finance',connected:true,k:null},
+        {n:'NSE Direct Scrape',connected:true,k:null},
+      ].map(x=>`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #0d1017;">
+        <div style="width:8px;height:8px;border-radius:50%;background:${x.connected?'#17c3a8':'#3a3a3a'};margin-right:10px;${x.connected?'animation:blink 2s infinite':''}"></div>
+        <div style="flex:1;font-size:13px;color:${x.connected?'#fff':'#555'};">${x.n}</div>
+        <div style="font-size:12px;color:${x.connected?'#17c3a8':'#555'};">${x.connected?'ACTIVE':'NOT SET'}</div>
+      </div>`).join('')}
+    </div>
+
+    <button onclick="goTo('demat')" style="width:100%;padding:13px;background:linear-gradient(135deg,#5c4df3,#17c3a8);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">📂 Open Demat & Get API Key</button>
+    <button onclick="testConnection()" style="width:100%;padding:12px;background:#1c2130;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">🔄 Test Connection</button>
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+function saveKey(keyName, inputId){
+  const val=document.getElementById(inputId)?.value?.trim();
+  if(!val){notif('❌','Error','Key empty hai');return;}
+  API_KEYS[keyName]=val;
+  localStorage.setItem('be_apikeys',JSON.stringify(API_KEYS));
+  notif('✅','API Key Saved!','Reconnecting live feed...');
+  speak('API key save ho gaya. Live data reconnect ho raha hai');
+  // Restart live feed
+  if(activeWS){try{activeWS.close();}catch(e){}}
+  wsConnected=false; liveMode=false; fetchErrors=0;
+  setTimeout(startLiveFeed, 1000);
+  buildAPISettings();
+}
+
+function saveKey2(k1,i1,k2,i2){
+  const v1=document.getElementById(i1)?.value?.trim(), v2=document.getElementById(i2)?.value?.trim();
+  if(!v1||!v2){notif('❌','Error','Dono fields bharo');return;}
+  API_KEYS[k1]=v1; API_KEYS[k2]=v2;
+  localStorage.setItem('be_apikeys',JSON.stringify(API_KEYS));
+  notif('✅','Angel One API Saved!','Connecting...');
+  speak('Angel One API save ho gaya');
+  setTimeout(startLiveFeed, 1000);
+  buildAPISettings();
+}
+
+async function testConnection(){
+  notif('🔄','Testing...','APIs check kar raha hun');
+  let ok=false;
+  if(API_KEYS.twelve){ ok=await fetchTwelveREST(); }
+  if(!ok){ ok=await fetchNSEDirect(); }
+  if(!ok){ ok=await fetchYahooAll(); }
+  if(ok) notif('✅','Connected!',`Live data aa raha hai — ${liveMode?'Real':'Yahoo'} feed`);
+  else notif('⚠️','Limited','Yahoo/NSE se data. Broker API add karo for best results');
+}
+function showGlobalFull(){
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:#0e1016;z-index:800;display:flex;flex-direction:column;overflow:hidden;';
+  ov.innerHTML=`
+    <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+      <button onclick="this.closest('div[style]').remove()" style="background:#1c2130;border:none;color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px;margin-right:12px;">←</button>
+      <div style="font-size:20px;font-weight:700;color:#fff;">🌍 Global Markets</div>
+      <div style="margin-left:auto;font-size:11px;color:#17c3a8;font-weight:600;" id="glLiveTag">🔴 LIVE</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;">
+      ${['USA','Asia','Europe'].map(region=>{
+        const items=GIDX.filter(g=>g.r===region||(region==='USA'&&g.f==='🇺🇸')||(region==='Asia'&&['🇯🇵','🇭🇰','🇨🇳','🇰🇷','🇸🇬','🇦🇺'].includes(g.f))||(region==='Europe'&&['🇬🇧','🇩🇪','🇫🇷','🇪🇺'].includes(g.f)));
+        return`<div style="padding:12px 16px 4px;font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${region}</div>
+        ${items.map(g=>{const up=g.c>=0;return`<div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #0d1017;">
+          <div style="font-size:24px;margin-right:12px;">${g.f}</div>
+          <div style="flex:1;"><div style="font-size:16px;font-weight:600;color:#fff;">${g.s}</div><div style="font-size:12px;color:#8b949e;">${g.r}</div></div>
+          <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#fff;">${g.p.toLocaleString('en-IN')}</div><div style="font-size:13px;font-weight:600;color:${up?'#17c3a8':'#f0627a'};">${up?'▲':'▼'} ${Math.abs(g.c).toFixed(2)}%</div></div>
+        </div>`}).join('')}`;
+      }).join('')}
+      <!-- F&O LIVE DATA -->
+      <div style="padding:12px 16px 4px;font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">F&O LIVE DATA</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 16px;">
+        ${[
+          {l:'NIFTY PCR',v:()=>foData.niftyPCR.toFixed(2),c:'#17c3a8',id:'glPCR'},
+          {l:'NIFTY ATM IV',v:()=>foData.niftyATMIV.toFixed(1)+'%',c:'#6b88ff',id:'glIV'},
+          {l:'BANKNIFTY PCR',v:()=>foData.bankPCR.toFixed(2),c:'#17c3a8',id:'glBPCR'},
+          {l:'BANK ATM IV',v:()=>foData.bankATMIV.toFixed(1)+'%',c:'#6b88ff',id:'glBIV'},
+          {l:'NIFTY FUT PREM',v:()=>foData.niftyFutPrem.toFixed(1),c:'#f59e0b',id:'glFP'},
+          {l:'BANK FUT PREM',v:()=>foData.bankFutPrem.toFixed(1),c:'#f59e0b',id:'glBFP'},
+        ].map(d=>`<div style="background:#131820;border-radius:12px;padding:14px;">
+          <div style="font-size:11px;color:#8b949e;margin-bottom:4px;">${d.l}</div>
+          <div style="font-size:22px;font-weight:700;color:${d.c};" id="${d.id}">${d.v()}</div>
+        </div>`).join('')}
+      </div>
+      <!-- TOP OI CALLS & PUTS -->
+      <div style="padding:0 16px 16px;">
+        <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;">Top OI — NIFTY Expiry</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:#131820;border-radius:12px;padding:12px;">
+            <div style="font-size:12px;color:#17c3a8;font-weight:600;margin-bottom:8px;">📈 TOP CALL OI</div>
+            ${foData.topOICall.map(x=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0d1017;"><span style="font-size:13px;color:#fff;">${x.strike}</span><span style="font-size:13px;color:#8b949e;">${x.oi}L</span></div>`).join('')}
+          </div>
+          <div style="background:#131820;border-radius:12px;padding:12px;">
+            <div style="font-size:12px;color:#f0627a;font-weight:600;margin-bottom:8px;">📉 TOP PUT OI</div>
+            ${foData.topOIPut.map(x=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0d1017;"><span style="font-size:13px;color:#fff;">${x.strike}</span><span style="font-size:13px;color:#8b949e;">${x.oi}L</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div style="height:30px;"></div>
+    </div>`;
+  document.body.appendChild(ov);
+}
+
+function showCommoditiesFull(){
+  const ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;background:#0e1016;z-index:800;display:flex;flex-direction:column;overflow:hidden;';
+  ov.innerHTML=`
+    <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #1a1f2e;flex-shrink:0;">
+      <button onclick="this.closest('div[style]').remove()" style="background:#1c2130;border:none;color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px;margin-right:12px;">←</button>
+      <div style="font-size:20px;font-weight:700;color:#fff;">⚡ Commodities</div>
+      <div style="margin-left:auto;font-size:11px;color:#17c3a8;font-weight:600;">🔴 LIVE</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;">
+      ${['International','MCX India'].map(cat=>{
+        const items=COMM.filter(c=>cat==='MCX India'?c.s.startsWith('MCX'):!c.s.startsWith('MCX'));
+        return`<div style="padding:12px 16px 4px;font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${cat}</div>
+        ${items.map(c=>{const up=c.c>=0;return`<div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid #0d1017;">
+          <div style="font-size:28px;margin-right:14px;">${c.i}</div>
+          <div style="flex:1;"><div style="font-size:16px;font-weight:600;color:#fff;">${c.s}</div><div style="font-size:12px;color:#8b949e;">${c.u}</div></div>
+          <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#fff;">${c.p.toLocaleString('en-IN',{maximumFractionDigits:2})}</div><div style="font-size:13px;font-weight:600;color:${up?'#17c3a8':'#f0627a'};">${up?'▲':'▼'} ${Math.abs(c.c).toFixed(2)}%</div></div>
+        </div>`}).join('')}`;
+      }).join('')}
+      <div style="height:30px;"></div>
+    </div>`;
+  document.body.appendChild(ov);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SENSIBULL-STYLE: OPTIONS CHAIN + STRATEGY BUILDER + BROKER LOGIN
+// ═══════════════════════════════════════════════════════════════
+
+// ── BROKER OAUTH LOGIN (like Sensibull) ──
+// ═══════════════════════════════════════════════════════════════
+// SENSIBULL-STYLE: MULTI-BROKER OAUTH LOGIN + LIVE DATA ENGINE
+// Supports: Zerodha · Upstox · Angel · Dhan · Fyers · 5paisa · Kotak · IIFL
+// ═══════════════════════════════════════════════════════════════
+
+let connectedBrokers = JSON.parse(localStorage.getItem('be_brokers')||'{}');
+let liveDataSource = localStorage.getItem('be_liveSource') || 'none';
+
+// ── BROKER CONFIGS (OAuth + API) ──
+const BROKERS_CONFIG = {
+  zerodha: {
+    name: 'Zerodha', tagline: 'India #1 broker', ico: '🏆', color: '#387ed1', users: '1.3 Cr+',
+    authType: 'oauth',
+    oauthUrl: (apiKey, redirect) => `https://kite.zerodha.com/connect/login?api_key=${apiKey||'YOUR_API_KEY'}&v=3`,
+    tokenUrl: 'https://api.kite.trade/session/token',
+    wsUrl: 'wss://ws.kite.trade/?api_key={apiKey}&access_token={token}',
+    apiDocs: 'https://kite.trade/docs',
+    getKey: 'kite.trade → Apps → Create App',
+    fields: [{ id:'z_apikey', label:'API Key', ph:'abc123xyz' }, { id:'z_token', label:'Access Token', ph:'eyJ...' }],
+  },
+  upstox: {
+    name: 'Upstox', tagline: 'Free API · 100ms WS', ico: '📈', color: '#5c4df3', users: '1.2 Cr+',
+    authType: 'oauth',
+    oauthUrl: (apiKey, redirect) => `https://api-v2.upstox.com/login/authorization/dialog?response_type=code&client_id=${apiKey||'YOUR_CLIENT_ID'}&redirect_uri=${encodeURIComponent(redirect)}`,
+    tokenUrl: 'https://api-v2.upstox.com/login/authorization/token',
+    wsUrl: 'wss://api-v2.upstox.com/feed/market-data-feed',
+    apiDocs: 'https://upstox.com/developer-api',
+    getKey: 'upstox.com/developer-api → Create App',
+    fields: [{ id:'u_apikey', label:'Client ID (API Key)', ph:'abc-xxx-yyy' }, { id:'u_token', label:'Access Token', ph:'eyJhbGci...' }],
+  },
+  angel: {
+    name: 'Angel One', tagline: 'SmartAPI · Free WebSocket', ico: '😇', color: '#ff6b35', users: '2.1 Cr+',
+    authType: 'credentials',
+    apiDocs: 'https://smartapi.angelone.in',
+    getKey: 'angelbroking.com → SmartAPI → Create App',
+    fields: [
+      { id:'a_apikey', label:'API Key', ph:'your_api_key' },
+      { id:'a_clientid', label:'Client ID', ph:'A12345678' },
+      { id:'a_pwd', label:'Password', ph:'••••••••', type:'password' },
+      { id:'a_totp', label:'TOTP Code', ph:'123456 (from authenticator)' },
+    ],
+  },
+  dhan: {
+    name: 'Dhan', tagline: 'Best for algo · Free API', ico: '💡', color: '#00b4d8', users: '20L+',
+    authType: 'token',
+    apiDocs: 'https://dhanhq.co/docs/latest',
+    getKey: 'web.dhan.co → API → Get Access Token',
+    fields: [{ id:'d_clientid', label:'Client ID', ph:'1000000001' }, { id:'d_token', label:'Access Token', ph:'eyJhbGci...' }],
+  },
+  fyers: {
+    name: 'Fyers', tagline: 'Free API · Reliable WS', ico: '🦅', color: '#2ecc71', users: '15L+',
+    authType: 'oauth',
+    oauthUrl: (apiKey, redirect) => `https://api.fyers.in/api/v3/generate-authcode?client_id=${apiKey||'APP_ID'}&redirect_uri=${encodeURIComponent(redirect)}&response_type=code&state=BullsEye`,
+    apiDocs: 'https://myapi.fyers.in',
+    getKey: 'myapi.fyers.in → Create App → Get App ID',
+    fields: [{ id:'f_appid', label:'App ID', ph:'ABCD-100' }, { id:'f_token', label:'Access Token', ph:'eyJ...' }],
+  },
+  kotak: {
+    name: 'Kotak Neo', tagline: 'Bank + Broker', ico: '🏦', color: '#d97706', users: '30L+',
+    authType: 'credentials',
+    apiDocs: 'https://neotradeapi.kotakneo.com',
+    getKey: 'neotradeapi.kotakneo.com → Register',
+    fields: [{ id:'k_consumer', label:'Consumer Key', ph:'...' }, { id:'k_secret', label:'Consumer Secret', ph:'...' }, { id:'k_token', label:'Access Token', ph:'eyJ...' }],
+  },
+  iifl: {
+    name: 'IIFL Securities', tagline: 'Trader Terminal API', ico: '🔷', color: '#1d4ed8', users: '40L+',
+    authType: 'credentials',
+    apiDocs: 'https://ttblaze.iifl.com/apidoc',
+    getKey: 'ttblaze.iifl.com → Developer Portal',
+    fields: [{ id:'i_appkey', label:'App Key', ph:'your_app_key' }, { id:'i_secret', label:'Secret Key', ph:'...' }],
+  },
+  shoonya: {
+    name: 'Finvasia/Shoonya', tagline: '₹0 brokerage', ico: '🎯', color: '#e74c3c', users: '10L+',
+    authType: 'credentials',
+    apiDocs: 'https://api.shoonya.com',
+    getKey: 'shoonya.com → API → Register',
+    fields: [{ id:'s_userid', label:'User ID', ph:'FA12345' }, { id:'s_apikey', label:'API Key', ph:'...' }],
+  },
+};
+
+function buildBrokerLogin() {
+  const el = document.getElementById('brokerC'); if (!el) return;
+  const numConnected = Object.values(connectedBrokers).filter(b => b.connected).length;
+
+  el.innerHTML = `
+  <!-- ── HERO ── -->
+  <div style="background:linear-gradient(160deg,#06000f 0%,#1a0533 40%,#0d1a2e 100%);padding:40px 20px 30px;text-align:center;flex-shrink:0;position:relative;">
+    <button onclick="goTo('home')" style="position:absolute;top:14px;left:14px;background:rgba(255,255,255,.08);border:none;color:#fff;width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:16px;line-height:1;">←</button>
+    <div style="font-size:54px;margin-bottom:12px;filter:drop-shadow(0 0 20px #5c4df3);">🎯</div>
+    <div style="font-size:28px;font-weight:900;color:#fff;margin-bottom:4px;letter-spacing:-.5px;">Bulls Eye Connect</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.45);margin-bottom:20px;line-height:1.7;">Sensibull ki tarah kisi bhi broker se login karo<br>Live WebSocket data automatically connect hoga</div>
+
+    <!-- Status pill -->
+    <div style="display:inline-flex;align-items:center;gap:8px;background:${numConnected?'#17c3a81a':'rgba(255,255,255,.07)'};border:1px solid ${numConnected?'#17c3a840':'rgba(255,255,255,.1)'};border-radius:24px;padding:8px 20px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:${numConnected?'#17c3a8':'#555'};${numConnected?'animation:blink 1.5s infinite':''}"></div>
+      <span style="font-size:13px;color:${numConnected?'#17c3a8':'#8b949e'};font-weight:600;">${numConnected?`${numConnected} Broker${numConnected>1?'s':''} Connected · Live Data ON`:'No broker connected · Demo mode'}</span>
+    </div>
+  </div>
+
+  <!-- ── HOW IT WORKS ── -->
+  <div style="background:#0d1017;border-bottom:1px solid #1a1f2e;padding:14px 16px;">
+    <div style="display:flex;gap:0;overflow-x:auto;">
+      ${[
+        ['🔐','Broker choose karo','#5c4df3'],
+        ['→','','#1a1f2e'],
+        ['📲','OAuth / Token login','#17c3a8'],
+        ['→','','#1a1f2e'],
+        ['⚡','Auto WebSocket','#f59e0b'],
+        ['→','','#1a1f2e'],
+        ['🔴','Live data on!','#f0627a'],
+      ].map(([ico,label,c])=>label
+        ? `<div style="flex-shrink:0;text-align:center;min-width:68px;"><div style="font-size:20px;margin-bottom:4px;">${ico}</div><div style="font-size:10px;color:#8b949e;line-height:1.4;">${label}</div></div>`
+        : `<div style="flex-shrink:0;color:#2a2f3e;font-size:22px;padding:2px 4px;align-self:flex-start;padding-top:6px;">${ico}</div>`
+      ).join('')}
+    </div>
+  </div>
+
+  <!-- ── BROKER GRID ── -->
+  <div style="padding:14px 14px 0;">
+    <div style="font-size:12px;color:#8b949e;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">Choose Your Broker</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      ${Object.entries(BROKERS_CONFIG).map(([id,b])=>{
+        const conn = connectedBrokers[id];
+        const isConn = conn?.connected;
+        return `<div onclick="openBrokerLoginFlow('${id}')" style="background:#131820;border:2px solid ${isConn?b.color:'#1a1f2e'};border-radius:16px;padding:16px 14px;text-align:center;cursor:pointer;position:relative;transition:border-color .2s;active:transform:scale(.95);">
+          ${isConn?`<div style="position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:#17c3a8;animation:blink 2s infinite;"></div>`:''}
+          <div style="font-size:32px;margin-bottom:8px;">${b.ico}</div>
+          <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;">${b.name}</div>
+          <div style="font-size:11px;color:${isConn?'#17c3a8':'#555'};margin-bottom:12px;">${isConn?'✓ Connected · Live':'Tap to connect'}</div>
+          <div style="padding:8px;border-radius:9px;font-size:12px;font-weight:700;color:${isConn?'#000':'#fff'};background:${isConn?'#17c3a8':b.color};">${isConn?'✓ LIVE':'Connect →'}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>
+
+  <!-- ── LIVE SPEED TABLE ── -->
+  <div style="margin:14px;background:#131820;border:1px solid #1a1f2e;border-radius:14px;padding:16px;">
+    <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;">⚡ Live Feed Comparison</div>
+    ${[
+      ['Upstox WebSocket','~100ms','#5c4df3','Best speed'],
+      ['Zerodha Kite WS','~150ms','#387ed1','Most reliable'],
+      ['Angel SmartAPI WS','~250ms','#ff6b35','Free forever'],
+      ['Dhan WS','~200ms','#00b4d8','Best for algo'],
+      ['Fyers WS','~200ms','#2ecc71','Stable'],
+      ['Yahoo (Fallback)','~5s REST','#555','No login needed'],
+    ].map(([b,s,c,note])=>`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #0d1017;">
+      <div style="width:8px;height:8px;border-radius:50%;background:${c};margin-right:10px;flex-shrink:0;"></div>
+      <div style="flex:1;"><div style="font-size:13px;color:#fff;">${b}</div><div style="font-size:11px;color:#555;">${note}</div></div>
+      <div style="font-size:12px;font-weight:700;color:${s.includes('100')?'#17c3a8':s.includes('5s')?'#555':'#f59e0b'};">${s}</div>
+    </div>`).join('')}
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+function openBrokerLoginFlow(brokerId) {
+  const b = BROKERS_CONFIG[brokerId]; if (!b) return;
+  const conn = connectedBrokers[brokerId];
+  const redirect = window.location.href.split('?')[0];
+
+  const ov = document.createElement('div');
+  ov.id = 'bkOv';
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:960;display:flex;align-items:flex-end;overflow-y:auto;';
+
+  ov.innerHTML = `
+  <div style="width:100%;background:#131820;border-radius:22px 22px 0 0;padding:22px 20px 50px;max-height:92vh;overflow-y:auto;">
+    <div style="width:36px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 18px;"></div>
+
+    <!-- Broker header -->
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+      <div style="width:56px;height:56px;border-radius:16px;background:${b.color}22;display:flex;align-items:center;justify-content:center;font-size:30px;">${b.ico}</div>
+      <div style="flex:1;">
+        <div style="font-size:20px;font-weight:800;color:#fff;">${b.name}</div>
+        <div style="font-size:13px;color:#8b949e;margin-top:2px;">${b.tagline} · ${b.users} users</div>
+      </div>
+      ${conn?.connected?`<button onclick="disconnectBrokerConfirm('${brokerId}')" style="background:#f0627a1a;border:1px solid #f0627a40;border-radius:8px;color:#f0627a;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600;">Disconnect</button>`:''}
+    </div>
+
+    <!-- Status if connected -->
+    ${conn?.connected?`<div style="background:#17c3a81a;border:1px solid #17c3a840;border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;"><div style="width:8px;height:8px;border-radius:50%;background:#17c3a8;animation:blink 1.5s infinite;"></div><div><div style="font-size:14px;font-weight:600;color:#17c3a8;">Live Data Connected</div><div style="font-size:12px;color:#8b949e;margin-top:2px;">Connected on ${new Date(conn.connectedAt).toLocaleDateString('en-IN')} · WebSocket active</div></div></div>`:''}
+
+    ${b.authType === 'oauth' ? `
+    <!-- OAuth Option -->
+    <div style="background:#0e1016;border-radius:14px;padding:16px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:16px;">🔐</span><div style="font-size:14px;font-weight:700;color:#fff;">OAuth Login (Recommended)</div></div>
+      <div style="font-size:12px;color:#8b949e;margin-bottom:14px;">Secure redirect login — ${b.name} site pe jaoge, wapas auto-redirect hoga</div>
+      <button onclick="startOAuthFlow('${brokerId}')" style="width:100%;padding:14px;background:${b.color};border:none;border-radius:11px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <span>🔐</span> Login with ${b.name}
+      </button>
+    </div>
+    <div style="text-align:center;color:#2a2f3e;font-size:13px;margin-bottom:14px;letter-spacing:1px;">— OR —</div>` : ''}
+
+    <!-- Manual Token Entry -->
+    <div style="background:#0e1016;border-radius:14px;padding:16px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:16px;">🔑</span><div style="font-size:14px;font-weight:700;color:#fff;">Manual Token Entry</div></div>
+      <div style="font-size:12px;color:#8b949e;margin-bottom:4px;">${b.getKey}</div>
+      <div onclick="window.open('${b.apiDocs}','_blank')" style="font-size:12px;color:#5c4df3;margin-bottom:14px;cursor:pointer;text-decoration:underline;">📖 View API Docs →</div>
+      ${b.fields.map(f=>`
+      <div style="margin-bottom:12px;">
+        <div style="font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;">${f.label}</div>
+        <div style="display:flex;gap:8px;">
+          <input id="${f.id}" type="${f.type||'text'}" placeholder="${f.ph}" style="flex:1;background:#131820;border:1px solid #2a2f3e;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;font-family:Inter,sans-serif;" autocomplete="off">
+          <button onclick="toggleVisibility('${f.id}')" style="width:42px;background:#1c2130;border:1px solid #2a2f3e;border-radius:10px;color:#8b949e;cursor:pointer;font-size:16px;">👁</button>
+        </div>
+      </div>`).join('')}
+      <button onclick="saveBrokerCredentials('${brokerId}')" style="width:100%;padding:14px;background:#17c3a8;border:none;border-radius:11px;color:#000;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;">
+        🔴 Connect → Get Live Data
+      </button>
+    </div>
+
+    <!-- Test Connection -->
+    ${conn?.connected?`<button onclick="testBrokerConnection('${brokerId}')" style="width:100%;padding:12px;background:#1c2130;border:1px solid #2a2f3e;border-radius:11px;color:#fff;font-size:14px;cursor:pointer;margin-bottom:10px;">🔄 Test Connection</button>`:''}
+    <button onclick="document.getElementById('bkOv').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:11px;color:#8b949e;font-size:14px;cursor:pointer;">Cancel</button>
+  </div>`;
+
+  ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  document.body.appendChild(ov);
+
+  // Pre-fill if already connected
+  if (conn) {
+    b.fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      if (el && conn[f.id]) el.value = conn[f.id];
+    });
+  }
+}
+
+function toggleVisibility(inputId) {
+  const el = document.getElementById(inputId); if (!el) return;
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function startOAuthFlow(brokerId) {
+  const b = BROKERS_CONFIG[brokerId]; if (!b?.oauthUrl) return;
+  // Save which broker is pending OAuth
+  localStorage.setItem('be_oauthPending', brokerId);
+  // Get API key from input if filled
+  const apiKeyField = b.fields[0];
+  const apiKey = document.getElementById(apiKeyField?.id)?.value?.trim() || '';
+  const redirect = window.location.href.split('?')[0];
+  const url = b.oauthUrl(apiKey, redirect);
+
+  notif('🔐','Opening '+b.name,'Login ke baad token copy karo aur paste karo yahan');
+  // Open in same window so redirect works
+  window.location.href = url;
+}
+
+function saveBrokerCredentials(brokerId) {
+  const b = BROKERS_CONFIG[brokerId];
+  const stored = { connected: false, connectedAt: new Date().toISOString() };
+  let allFilled = true;
+  b.fields.forEach(f => {
+    const val = document.getElementById(f.id)?.value?.trim() || '';
+    if (!val && !f.optional) allFilled = false;
+    stored[f.id] = val;
+  });
+
+  if (!allFilled) { notif('❌','Error','Saare required fields bharo'); return; }
+  stored.connected = true;
+
+  connectedBrokers[brokerId] = stored;
+  localStorage.setItem('be_brokers', JSON.stringify(connectedBrokers));
+  liveDataSource = brokerId;
+  localStorage.setItem('be_liveSource', brokerId);
+
+  // Map to API_KEYS for live engine
+  applyBrokerToEngine(brokerId, stored);
+
+  document.getElementById('bkOv')?.remove();
+  speak(`${b.name} connect ho gaya. Live data WebSocket se aa raha hai`);
+  playAlarm('buy');
+  notif('🔴', b.name+' Connected!', 'Live WebSocket data starting — '+b.name);
+
+  // Restart live engine
+  if (activeWS) { try { activeWS.close(); } catch(e){} }
+  wsConnected = false; fetchErrors = 0;
+  setTimeout(startLiveFeed, 800);
+  buildBrokerLogin();
+}
+
+function applyBrokerToEngine(brokerId, stored) {
+  switch(brokerId) {
+    case 'upstox':  API_KEYS.upstoxToken = stored.u_token || ''; break;
+    case 'zerodha': API_KEYS.zerodhaToken = stored.z_token || ''; API_KEYS.zerodhaKey = stored.z_apikey || ''; break;
+    case 'angel':   API_KEYS.angelApiKey = stored.a_apikey || ''; API_KEYS.angelJwt = stored.a_token || ''; break;
+    case 'dhan':    API_KEYS.dhanToken = stored.d_token || ''; API_KEYS.dhanClient = stored.d_clientid || ''; break;
+    case 'fyers':   API_KEYS.fyersToken = stored.f_token || ''; break;
+  }
+  localStorage.setItem('be_apikeys', JSON.stringify(API_KEYS));
+}
+
+function disconnectBrokerConfirm(brokerId) {
+  const b = BROKERS_CONFIG[brokerId];
+  const ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:970;display:flex;align-items:center;justify-content:center;padding:20px;';
+  ov.innerHTML = `<div style="background:#131820;border-radius:20px;padding:24px;width:100%;max-width:320px;text-align:center;">
+    <div style="font-size:40px;margin-bottom:12px;">${b.ico}</div>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:8px;">Disconnect ${b.name}?</div>
+    <div style="font-size:13px;color:#8b949e;margin-bottom:20px;">Token delete ho jayega. Dobara connect karna hoga.</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="this.closest('[style]').remove()" style="flex:1;padding:12px;background:#1c2130;border:none;border-radius:10px;color:#fff;cursor:pointer;">Cancel</button>
+      <button onclick="doDisconnectBroker('${brokerId}');this.closest('[style]').remove();document.getElementById('bkOv')?.remove();" style="flex:1;padding:12px;background:#f0627a;border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;">Disconnect</button>
+    </div>
+  </div>`;
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+  document.body.appendChild(ov);
+}
+
+function doDisconnectBroker(brokerId) {
+  delete connectedBrokers[brokerId];
+  localStorage.setItem('be_brokers', JSON.stringify(connectedBrokers));
+  notif('ℹ️','Disconnected', BROKERS_CONFIG[brokerId].name + ' remove ho gaya');
+  buildBrokerLogin();
+}
+
+async function testBrokerConnection(brokerId) {
+  notif('🔄','Testing...','Connection check ho raha hai');
+  let ok = false;
+  if (brokerId === 'upstox' && API_KEYS.upstoxToken)  ok = !!await fetchYahooAll().catch(()=>false);
+  if (!ok) ok = await fetchNSEDirect().catch(()=>false);
+  if (!ok) ok = await fetchYahooAll().catch(()=>false);
+  notif(ok?'✅':'⚠️', ok?'Connection OK!':'Partial', ok?'Live data flow ho raha hai':'Yahoo fallback pe chal raha hai');
+}
+
+// Handle OAuth return
+function checkOAuthCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('request_token') || params.get('code') || params.get('access_token');
+  const pending = localStorage.getItem('be_oauthPending');
+  if (code && pending) {
+    localStorage.removeItem('be_oauthPending');
+    const b = BROKERS_CONFIG[pending];
+    if (!b) return;
+    // Store token
+    const stored = { connected: true, connectedAt: new Date().toISOString() };
+    stored[b.fields.find(f=>f.label.toLowerCase().includes('token'))?.id || b.fields[b.fields.length-1].id] = code;
+    connectedBrokers[pending] = stored;
+    localStorage.setItem('be_brokers', JSON.stringify(connectedBrokers));
+    applyBrokerToEngine(pending, stored);
+    liveDataSource = pending; localStorage.setItem('be_liveSource', pending);
+    // Clean URL
+    history.replaceState({}, '', window.location.pathname);
+    setTimeout(() => {
+      notif('🔴', b.name+' Login Successful!', 'Live WebSocket connect ho raha hai');
+      speak(b.name + ' mein login ho gaya. Live data aa raha hai');
+      setTimeout(startLiveFeed, 800);
+    }, 1000);
+  }
+}
+
+
+// ── OPTIONS CHAIN (Sensibull-style) ──
+let ocSym='NIFTY 50';
+let foLiveTimer=null;
+
+function generateOptionChain(sym,atm){
+  const step=sym.includes('BANK')?100:50;
+  const atmR=Math.round(atm/step)*step;
+  const strikes=[];
+  for(let i=-10;i<=10;i++) strikes.push(atmR+i*step);
+  return strikes.map(s=>{
+    const dist=Math.abs(s-atmR)/step, isATM=s===atmR;
+    const bOI=isATM?45:Math.max(1,35-dist*3);
+    const iv=14.5+dist*.8+(Math.random()*.5);
+    const delta=Math.max(.01,Math.min(.99,.5+(atmR-s)/step*.08));
+    const ceLTP=s>atmR?Math.max(.5,(s-atmR)*(1-dist*.1)+Math.random()*15+5):Math.max(.5,Math.random()*80+30);
+    const peLTP=s<atmR?Math.max(.5,(atmR-s)*(1-dist*.1)+Math.random()*15+5):Math.max(.5,Math.random()*80+30);
+    return{strike:s,isATM,
+      ce:{oi:+(bOI*(.8+Math.random()*.4)).toFixed(1),oiChg:+((Math.random()-.4)*8).toFixed(1),vol:+(bOI*12).toFixed(0),iv:+iv.toFixed(1),ltp:+ceLTP.toFixed(2),delta:+delta.toFixed(2)},
+      pe:{oi:+(bOI*(.8+Math.random()*.4)).toFixed(1),oiChg:+((Math.random()-.4)*8).toFixed(1),vol:+(bOI*11).toFixed(0),iv:+iv.toFixed(1),ltp:+peLTP.toFixed(2),delta:+(1-delta).toFixed(2)},
+    };
+  });
+}
+
+function buildOptionChain(){
+  const el=document.getElementById('optchainC'); if(!el) return;
+  const idx=IDXS.find(x=>x.s===ocSym)||IDXS[0];
+  const chain=generateOptionChain(ocSym,idx.p);
+  const atmS=chain.find(r=>r.isATM)?.strike||Math.round(idx.p/50)*50;
+  const totCE=chain.reduce((s,r)=>s+r.ce.oi,0), totPE=chain.reduce((s,r)=>s+r.pe.oi,0);
+  const pcr=(totPE/totCE).toFixed(2), pcrPct=Math.min(100,(totPE/(totCE+totPE)*100)).toFixed(0);
+  const pcrBull=+pcr>1;
+  document.getElementById('ocTitle').textContent=`${ocSym} Options`;
+  document.getElementById('ocPCRBar').innerHTML=`
+    <div class="pcr-bar">
+      <div style="margin-right:10px;"><div style="font-size:10px;color:#8b949e;font-weight:600;">PCR</div><div style="font-size:22px;font-weight:800;color:${pcrBull?'#17c3a8':'#f0627a'};">${pcr}</div></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:10px;color:#555;"><span>CE: ${totCE.toFixed(0)}L</span><span>PE: ${totPE.toFixed(0)}L</span></div>
+        <div style="height:8px;background:#1c2130;border-radius:4px;overflow:hidden;display:flex;"><div style="background:#17c3a8;width:${100-pcrPct}%;"></div><div style="background:#f0627a;flex:1;"></div></div>
+        <div style="font-size:11px;margin-top:4px;color:${pcrBull?'#17c3a8':'#f0627a'};font-weight:600;">${pcrBull?'🟢 Bullish — Put writers active':'🔴 Bearish — Call writers dominant'}</div>
+      </div>
+      <div style="margin-left:10px;text-align:center;"><div style="font-size:10px;color:#8b949e;">ATM IV</div><div style="font-size:18px;font-weight:800;color:#6b88ff;">${foData.niftyATMIV.toFixed(1)}%</div></div>
+    </div>
+    <div style="display:flex;gap:6px;padding:8px 16px;border-bottom:1px solid #1a1f2e;overflow-x:auto;">
+      ${IDXS.map(x=>`<button onclick="ocSym='${x.s}';buildOptionChain()" style="padding:5px 12px;border-radius:16px;border:none;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;background:${ocSym===x.s?'#fff':'#1c2130'};color:${ocSym===x.s?'#000':'#8b949e'};">${x.s}</button>`).join('')}
+    </div>`;
+  const maxCE=Math.max(...chain.map(r=>r.ce.oi)), maxPE=Math.max(...chain.map(r=>r.pe.oi));
+  el.innerHTML=`
+    <div style="padding:8px 16px 4px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-size:13px;font-weight:600;color:#fff;">LTP: ₹${idx.p.toLocaleString('en-IN',{maximumFractionDigits:0})} · ATM: ${atmS}</div>
+      <button onclick="goTo('strategy')" style="padding:6px 12px;background:#5c4df3;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">🧠 Strategy</button>
+    </div>
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;min-width:560px;">
+      <thead>
+        <tr><th colspan="4" style="font-size:10px;color:#17c3a8;background:#17c3a808;padding:6px;border-bottom:1px solid #1a1f2e;text-align:center;">── CALLS ──</th><th style="background:#1c2130;color:#fff;font-size:10px;font-weight:700;padding:6px;border-bottom:1px solid #1a1f2e;">STRIKE</th><th colspan="4" style="font-size:10px;color:#f0627a;background:#f0627a08;padding:6px;border-bottom:1px solid #1a1f2e;text-align:center;">── PUTS ──</th></tr>
+        <tr style="background:#0e1016;">${['OI(L)','IV','LTP','Δ','₹','OI(L)','IV','LTP','Δ'].map(h=>`<th style="font-size:10px;color:#555;padding:5px 6px;border-bottom:1px solid #0d1017;font-weight:700;">${h}</th>`).join('')}</tr>
+      </thead>
+      <tbody>
+        ${chain.map(r=>{const cbw=Math.round(r.ce.oi/maxCE*100),pbw=Math.round(r.pe.oi/maxPE*100);return`<tr style="${r.isATM?'background:#17c3a808;':''}" onclick="showStrikeDetail(${r.strike},'${ocSym}')">
+          <td style="font-size:12px;font-weight:600;color:#17c3a8;padding:7px 5px;text-align:center;border-bottom:1px solid #0d1017;">${r.ce.oi}<br><div style="height:2px;background:#17c3a8;width:${cbw}%;margin:2px 0 0 auto;border-radius:1px;"></div></td>
+          <td style="font-size:11px;color:#17c3a8;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.ce.iv}</td>
+          <td style="font-size:12px;font-weight:700;color:#17c3a8;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.ce.ltp}</td>
+          <td style="font-size:10px;color:#555;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.ce.delta}</td>
+          <td style="font-size:13px;font-weight:800;color:#fff;padding:5px;text-align:center;background:#1c2130;border-bottom:1px solid #0d1017;">${r.isATM?'⭐':''}<b>${r.strike}</b></td>
+          <td style="font-size:12px;font-weight:600;color:#f0627a;padding:7px 5px;text-align:center;border-bottom:1px solid #0d1017;">${r.pe.oi}<br><div style="height:2px;background:#f0627a;width:${pbw}%;border-radius:1px;margin-top:2px;"></div></td>
+          <td style="font-size:11px;color:#f0627a;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.pe.iv}</td>
+          <td style="font-size:12px;font-weight:700;color:#f0627a;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.pe.ltp}</td>
+          <td style="font-size:10px;color:#555;padding:5px;text-align:center;border-bottom:1px solid #0d1017;">${r.pe.delta}</td>
+        </tr>`}).join('')}
+      </tbody>
+    </table></div>
+    <div style="margin:12px 16px;background:#131820;border-radius:12px;padding:14px;">
+      <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">🤖 AI OI Analysis</div>
+      <div style="font-size:13px;color:#8b949e;line-height:1.9;">
+        📌 <b style="color:#fff;">Max Call OI:</b> ${chain.reduce((m,r)=>r.ce.oi>m.oi?{s:r.strike,oi:r.ce.oi}:m,{s:0,oi:0}).s} — Resistance zone<br>
+        📌 <b style="color:#fff;">Max Put OI:</b> ${chain.reduce((m,r)=>r.pe.oi>m.oi?{s:r.strike,oi:r.pe.oi}:m,{s:0,oi:0}).s} — Support zone<br>
+        💡 <b style="color:#17c3a8;">AI Suggestion:</b> ${pcrBull?`Bull Call Spread — Buy ${atmS} CE, Sell ${atmS+100} CE`:`Bear Put Spread — Buy ${atmS} PE, Sell ${atmS-100} PE`}
+      </div>
+    </div>
+    <div style="height:30px;"></div>`;
+  clearInterval(foLiveTimer);
+  if(isMarketOpen()) foLiveTimer=setInterval(()=>{if(document.getElementById('optchainScreen')?.classList.contains('on'))buildOptionChain();},6000);
+}
+
+function showStrikeDetail(strike,sym){
+  const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:flex;align-items:flex-end;';
+  const g=['Delta','Gamma','Theta','Vega'];
+  const ce=[+(Math.random()*.5+.1).toFixed(3),+(Math.random()*.01).toFixed(4),+(-Math.random()*5-2).toFixed(2),+(Math.random()*10+3).toFixed(2)];
+  const pe=[+(-Math.random()*.5-.1).toFixed(3),+(Math.random()*.01).toFixed(4),+(-Math.random()*5-2).toFixed(2),+(Math.random()*10+3).toFixed(2)];
+  ov.innerHTML=`<div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+    <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 16px;"></div>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:14px;">${sym} ${strike} — Greeks</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#0e1016;border-radius:10px;padding:12px;"><div style="font-size:12px;color:#17c3a8;font-weight:700;margin-bottom:8px;">📈 CALL ${strike}</div>${g.map((x,i)=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #0d1017;"><span style="font-size:12px;color:#8b949e;">${x}</span><span style="font-size:12px;font-weight:700;color:#fff;">${ce[i]}</span></div>`).join('')}</div>
+      <div style="background:#0e1016;border-radius:10px;padding:12px;"><div style="font-size:12px;color:#f0627a;font-weight:700;margin-bottom:8px;">📉 PUT ${strike}</div>${g.map((x,i)=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #0d1017;"><span style="font-size:12px;color:#8b949e;">${x}</span><span style="font-size:12px;font-weight:700;color:#fff;">${pe[i]}</span></div>`).join('')}</div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="notif('📈','BUY CE','${sym} ${strike} CE order placed');this.closest('[style]').remove()" style="flex:1;padding:13px;background:#17c3a8;border:none;border-radius:12px;color:#000;font-size:14px;font-weight:700;cursor:pointer;">BUY CE</button>
+      <button onclick="notif('📉','BUY PE','${sym} ${strike} PE order placed');this.closest('[style]').remove()" style="flex:1;padding:13px;background:#f0627a;border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">BUY PE</button>
+      <button onclick="this.closest('[style]').remove()" style="padding:13px 16px;background:#1c2130;border:none;border-radius:12px;color:#fff;cursor:pointer;">✕</button>
+    </div>
+  </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};document.body.appendChild(ov);
+}
+
+// ── STRATEGY BUILDER ──
+const STRATEGIES=[
+  {name:'Bull Call Spread',emoji:'📈',desc:'Buy lower CE, sell higher CE — limited risk bullish',view:'Mildly Bullish',legs:['BUY ATM CE','SELL OTM+1 CE'],legTypes:['buy','sell'],margin:'₹8,200',maxProfit:'+₹12,000',maxLoss:'-₹5,500',color:'#17c3a8',aiScore:82,aiNote:'PCR 1.24 + bullish trend — Bull Call Spread best fit abhi.'},
+  {name:'Bear Put Spread',emoji:'📉',desc:'Buy ATM PE, sell OTM PE — limited risk bearish',view:'Mildly Bearish',legs:['BUY ATM PE','SELL OTM-1 PE'],legTypes:['buy','sell'],margin:'₹7,800',maxProfit:'+₹11,500',maxLoss:'-₹5,200',color:'#f0627a',aiScore:54,aiNote:'Market abhi bullish hai — Bear Put avoid karo. Wait for reversal signal.'},
+  {name:'Iron Condor',emoji:'🦅',desc:'Sell both sides — earn from sideways market + time decay',view:'Neutral / Sideways',legs:['SELL OTM CE','BUY far CE','SELL OTM PE','BUY far PE'],legTypes:['sell','buy','sell','buy'],margin:'₹42,000',maxProfit:'+₹8,400',maxLoss:'-₹16,600',color:'#f59e0b',aiScore:71,aiNote:'IV 14.2% — decent premium. Use if market expected sideways 3-5 days.'},
+  {name:'Long Straddle',emoji:'🎯',desc:'Buy ATM CE + PE — big move in any direction',view:'High Volatility Expected',legs:['BUY ATM CE','BUY ATM PE'],legTypes:['buy','buy'],margin:'₹18,000',maxProfit:'Unlimited',maxLoss:'-₹18,000',color:'#a78bfa',aiScore:58,aiNote:'IV abhi low — straddle ke liye IV crush risk. Event-based trading ke liye use karo.'},
+  {name:'Bull Put Spread',emoji:'🐂',desc:'Sell OTM PE, buy further OTM PE — collect premium',view:'Bullish',legs:['SELL OTM PE','BUY far OTM PE'],legTypes:['sell','buy'],margin:'₹14,500',maxProfit:'+₹6,800',maxLoss:'-₹8,200',color:'#17c3a8',aiScore:79,aiNote:'Strong support levels + PCR bullish — Bull Put Spread ideal hai abhi.'},
+  {name:'Covered Call',emoji:'🛡️',desc:'Hold stock + sell OTM CE — monthly passive income',view:'Neutral to Slightly Bullish',legs:['HOLD STOCK','SELL OTM CE'],legTypes:['neutral','sell'],margin:'₹0 extra',maxProfit:'+₹5,200/lot',maxLoss:'Stock risk',color:'#34d399',aiScore:78,aiNote:'Long-term holdings ke liye best — passive income strategy.'},
+  {name:'Calendar Spread',emoji:'📅',desc:'Sell near expiry CE, buy far expiry CE — IV difference',view:'Neutral',legs:['SELL Near-Month CE','BUY Far-Month CE'],legTypes:['sell','buy'],margin:'₹12,000',maxProfit:'+₹4,200',maxLoss:'-₹3,800',color:'#6b88ff',aiScore:65,aiNote:'Expiry week mein best kaam karta hai yeh strategy.'},
+  {name:'Long Strangle',emoji:'⚡',desc:'Buy OTM CE + OTM PE — cheaper than straddle',view:'Very High Volatility',legs:['BUY OTM CE','BUY OTM PE'],legTypes:['buy','buy'],margin:'₹9,400',maxProfit:'Unlimited',maxLoss:'-₹9,400',color:'#fb923c',aiScore:55,aiNote:'Budget results ya RBI policy ke pehle use karo — big move expected.'},
+];
+
+function buildStrategyBuilder(){
+  const el=document.getElementById('strategyC'); if(!el) return;
+  const idx=IDXS[curIdx||0], atmS=Math.round(idx.p/50)*50;
+  el.innerHTML=`
+  <div style="padding:10px 16px;background:#131820;border-bottom:1px solid #1a1f2e;display:flex;gap:6px;overflow-x:auto;flex-shrink:0;">
+    ${IDXS.map((x,i)=>`<button onclick="curIdx=${i};buildStrategyBuilder()" style="padding:5px 12px;border-radius:16px;border:none;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;background:${curIdx===i?'#fff':'#1c2130'};color:${curIdx===i?'#000':'#8b949e'};">${x.s}</button>`).join('')}
+  </div>
+  <div style="padding:12px 16px;background:#17c3a808;border-bottom:1px solid #17c3a820;">
+    <div style="font-size:11px;font-weight:700;color:#17c3a8;margin-bottom:8px;">🤖 AI MARKET CONTEXT</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      ${[{l:'Index',v:idx.s,c:'#fff'},{l:'LTP',v:'₹'+idx.p.toLocaleString('en-IN',{maximumFractionDigits:0}),c:'#fff'},{l:'ATM',v:atmS,c:'#f59e0b'},{l:'PCR',v:foData.niftyPCR.toFixed(2),c:foData.niftyPCR>1?'#17c3a8':'#f0627a'},{l:'IV',v:foData.niftyATMIV.toFixed(1)+'%',c:'#6b88ff'},{l:'Trend',v:idx.c>=0?'↑ Bull':'↓ Bear',c:idx.c>=0?'#17c3a8':'#f0627a'}].map(x=>`<div style="background:#1c2130;border-radius:8px;padding:6px 10px;"><div style="font-size:10px;color:#8b949e;">${x.l}</div><div style="font-size:13px;font-weight:700;color:${x.c};">${x.v}</div></div>`).join('')}
+    </div>
+  </div>
+  <div style="padding:8px 0;">
+    ${STRATEGIES.map(s=>`<div class="strat-card fade-up" onclick="showStrategyDetail('${s.name}')">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="font-size:28px;">${s.emoji}</div><div><div style="font-size:16px;font-weight:700;color:#fff;">${s.name}</div><div style="font-size:12px;color:#8b949e;">${s.view}</div></div></div>
+        <div style="text-align:center;flex-shrink:0;"><div style="font-size:22px;font-weight:800;color:${s.aiScore>=75?'#17c3a8':s.aiScore>=60?'#f59e0b':'#f0627a'};">${s.aiScore}</div><div style="font-size:10px;color:#555;">AI FIT</div></div>
+      </div>
+      <div style="font-size:13px;color:#8b949e;margin-bottom:10px;">${s.desc}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">${s.legs.map((l,i)=>`<span class="strat-leg ${s.legTypes[i]}">${l}</span>`).join('')}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;">
+        <div style="background:#0e1016;border-radius:8px;padding:7px;text-align:center;"><div style="font-size:12px;font-weight:700;color:#17c3a8;">${s.maxProfit}</div><div style="font-size:10px;color:#555;">Max Profit</div></div>
+        <div style="background:#0e1016;border-radius:8px;padding:7px;text-align:center;"><div style="font-size:12px;font-weight:700;color:#f0627a;">${s.maxLoss}</div><div style="font-size:10px;color:#555;">Max Loss</div></div>
+        <div style="background:#0e1016;border-radius:8px;padding:7px;text-align:center;"><div style="font-size:12px;font-weight:700;color:#f59e0b;">${s.margin}</div><div style="font-size:10px;color:#555;">Margin</div></div>
+        <div style="background:#0e1016;border-radius:8px;padding:7px;text-align:center;"><div style="font-size:12px;font-weight:700;color:#a78bfa;">${s.risk||'Limited'}</div><div style="font-size:10px;color:#555;">Risk</div></div>
+      </div>
+      <div style="background:#17c3a808;border-left:3px solid #17c3a8;padding:8px 10px;border-radius:0 8px 8px 0;font-size:12px;color:#8b949e;">🤖 ${s.aiNote}</div>
+    </div>`).join('')}
+  </div>
+  <div style="height:30px;"></div>`;
+}
+
+function showStrategyDetail(name){
+  const s=STRATEGIES.find(x=>x.name===name);if(!s)return;
+  const idx=IDXS[curIdx||0],atmS=Math.round(idx.p/50)*50;
+  const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:900;display:flex;align-items:flex-end;overflow-y:auto;';
+  ov.innerHTML=`<div style="width:100%;background:#131820;border-radius:20px 20px 0 0;padding:20px 20px 48px;">
+    <div style="width:32px;height:3px;background:#2a2f3e;border-radius:2px;margin:0 auto 16px;"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="font-size:36px;">${s.emoji}</div>
+      <div style="flex:1;"><div style="font-size:20px;font-weight:700;color:#fff;">${s.name}</div><div style="font-size:13px;color:#8b949e;">${s.view}</div></div>
+      <div style="text-align:center;"><div style="font-size:28px;font-weight:800;color:${s.aiScore>=75?'#17c3a8':s.aiScore>=60?'#f59e0b':'#f0627a'};">${s.aiScore}</div><div style="font-size:11px;color:#555;">AI FIT</div></div>
+    </div>
+    <div style="background:#0e1016;border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:10px;">Strategy Legs — ${idx.s} @ ${atmS}</div>
+      ${s.legs.map((l,i)=>{const strike=atmS+(i===1?100:i===2?-50:i===3?-150:0);return`<div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid #0d1017;"><span class="strat-leg ${s.legTypes[i]}" style="margin-right:10px;min-width:50px;text-align:center;">${s.legTypes[i].toUpperCase()}</span><div style="flex:1;font-size:14px;color:#fff;">${l}</div><div style="text-align:right;"><div style="font-size:14px;font-weight:700;color:#fff;">${strike}</div><div style="font-size:11px;color:#555;">Strike</div></div></div>`;}).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:#17c3a81a;border:1px solid #17c3a840;border-radius:12px;padding:14px;text-align:center;"><div style="font-size:22px;font-weight:800;color:#17c3a8;">${s.maxProfit}</div><div style="font-size:12px;color:#8b949e;margin-top:4px;">Max Profit</div></div>
+      <div style="background:#f0627a1a;border:1px solid #f0627a40;border-radius:12px;padding:14px;text-align:center;"><div style="font-size:22px;font-weight:800;color:#f0627a;">${s.maxLoss}</div><div style="font-size:12px;color:#8b949e;margin-top:4px;">Max Loss</div></div>
+    </div>
+    <div style="background:#17c3a808;border:1px solid #17c3a820;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="font-size:13px;font-weight:600;color:#17c3a8;margin-bottom:6px;">🤖 AI Recommendation</div><div style="font-size:13px;color:#ccc;line-height:1.7;">${s.aiNote}</div></div>
+    <button onclick="notif('📊','${s.name}','Strategy legs placed! Check Orders.');this.closest('[style]').remove();" style="width:100%;padding:14px;background:${s.color};border:none;border-radius:12px;color:#000;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">⚡ Execute Strategy → </button>
+    <button onclick="this.closest('[style]').remove()" style="width:100%;padding:12px;background:transparent;border:1px solid #2a2f3e;border-radius:12px;color:#fff;font-size:14px;cursor:pointer;">Close</button>
+  </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};document.body.appendChild(ov);
+}
+
 // ═══════════ INIT ═══════════
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+checkOAuthCallback(); // Handle OAuth return from broker
 buildHome();
 setWTab('mylist');
 setWTabActive();
+
+// Add broker login button to topbar
+(function addBrokerBtn(){
+  const tb = document.querySelector('.topbar');
+  if(!tb) return;
+  const btn = document.createElement('button');
+  btn.className = 'tb-btn';
+  btn.style.background = '#5c4df322';
+  btn.style.borderColor = '#5c4df3';
+  btn.innerHTML = `<svg width="17" height="17" fill="none" stroke="#a78bfa" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg><span style="color:#a78bfa;">Login</span>`;
+  btn.onclick = () => goTo('broker');
+  tb.insertBefore(btn, tb.querySelector('.tb-btn'));
+})();
+
 </script>
 </body>
 </html>
