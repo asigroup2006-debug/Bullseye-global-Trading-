@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Login Successful!</h2>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(code) localStorage.setItem('upstox_code', code);
+  document.write('Auth Code: ' + code);
+</script>
+</body>
+</html>
