@@ -2,11 +2,28 @@
 <html>
 <body>
 <h2>Login Successful!</h2>
+<div id="result">Processing...</div>
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if(code) localStorage.setItem('upstox_code', code);
-  document.write('Auth Code: ' + code);
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+if(code) {
+  document.getElementById('result').innerHTML = '<h3>Auth Code: <b>' + code + '</b></h3><p>Copying...</p>';
+  
+  fetch('https://api.upstox.com/v2/login/authorization/token', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'code=' + code + '&client_id=58b9b859-82cd-4df1-8598-159d2b147875&client_secret=6f57ur1fnp&redirect_uri=https%3A%2F%2Fasigroup2006-debug.github.io%2FBullseye-global-Trading-%2Fcallback.html&grant_type=authorization_code'
+  })
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('result').innerHTML = '<h3>ACCESS TOKEN:</h3><p style="word-break:break-all;color:green"><b>' + JSON.stringify(data) + '</b></p>';
+  })
+  .catch(e => {
+    document.getElementById('result').innerHTML = '<h3>Auth Code: <b>' + code + '</b></h3><p>Manual exchange needed</p>';
+  });
+} else {
+  document.getElementById('result').innerHTML = 'No code found!';
+}
 </script>
 </body>
 </html>
